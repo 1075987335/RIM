@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/IM?serverTimezone=GMT%2B8&characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: 12345678
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: root
+    password: root
+    listener:
+      simple:
+        acknowledge-mode: manual
+      direct:
+        acknowledge-mode: manual
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 1000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+dubbo:
+  application:
+    name: dubbo-store
+    qos-host: 127.0.0.1
+    qos-port: 2003
+  protocol:
+    name: dubbo
+    port: 1503
+  registry:
+    address: zookeeper://127.0.0.1:2181
+
