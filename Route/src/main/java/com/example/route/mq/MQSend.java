@@ -25,13 +25,16 @@ public class MQSend {
     public void sendMessage(IM_Message msg, boolean isOffline){
         byte[] bytes = kryoSerializer.serialize(msg);
         String id;
-        if(isOffline)
+        String routingKey;
+        if(isOffline){
             id = "Off:" + msg.getHeader().getMID();
-        else
+            routingKey = Constants.RabbitmqConstants.P2POfflineMessage;
+        }
+        else{
             id = idGenerator(msg);
-
+            routingKey = routingKeyGet(msg);
+        }
         CorrelationData correlationData = new CorrelationData(id);
-        String routingKey = routingKeyGet(msg);
         rabbitTemplate.convertAndSend(Constants.RabbitmqConstants.Routing, routingKey, bytes, correlationData);
     }
 

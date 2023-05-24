@@ -69,7 +69,7 @@ public class StoreMessageService {
         Header header = new Header();
         try {
             redisUtil.setP2PMessage(header.getUID(), header.getTID(), header.getMID(), (String)message.getBody());
-            log.info("单聊离线消息:[{}]成功保存在redis中");
+            log.info("单聊离线消息:[{}]成功保存在redis中", header.getMID());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

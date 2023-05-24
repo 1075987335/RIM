@@ -36,7 +36,7 @@ public class StoreJob implements Runnable{
             if(isOffline == true && type == Constants.CommandType.P2P_MSG){
                 service.doStoreP2POfflineMessage(message);
             }
-            if(type == Constants.CommandType.P2P_MSG){
+            else if(type == Constants.CommandType.P2P_MSG){
                 service.doStoreP2PMessage(message);
             }
             else if(type == Constants.CommandType.P2P_ACK){
