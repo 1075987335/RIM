@@ -55,7 +55,6 @@ public class MQCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
                 long mid = Long.parseLong(messageInfo[1]);
                 outTimeJobExecutor.cancel(mid);
                 unprocessedRequests.finish(mid);
-
             }
             else if(messageType.equals("GroupAck")){
                 long mid = Long.parseLong(messageInfo[1]);
