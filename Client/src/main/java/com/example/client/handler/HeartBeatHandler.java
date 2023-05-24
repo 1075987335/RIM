@@ -28,7 +28,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx){
         if(clientState == null){
             clientState = SpringBeanFactory.getBean(ClientState.class);
         }
@@ -42,7 +42,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt){
         if(evt instanceof IdleStateEvent){
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
             if(idleStateEvent.state() == IdleState.WRITER_IDLE){
@@ -50,7 +50,6 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
                 Header header = new Header();
                 header.setType(Constants.CommandType.PING);
                 heartBeat.setHeader(header);
-                //heartBeat.setBody("PING");
                 sendMessage = SpringBeanFactory.getBean("SendMessage",SendMessage.class);
                 sendMessage.send(heartBeat);
             }

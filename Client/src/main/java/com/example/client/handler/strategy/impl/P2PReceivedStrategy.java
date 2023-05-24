@@ -25,11 +25,11 @@ public class P2PReceivedStrategy implements MessageReceivedStrategy {
     @Override
     public void handle(IM_Message message) {
         Header header = message.getHeader();
-        log.info("--------------------------------------------");
-        log.info(" ");
-        log.info("来自 [{}] : {}", header.getUID(), message.getBody());
-        log.info(" ");
-        log.info("--------------------------------------------");
+        log.info("\n" +
+                "--------------------------------------------\n" +
+                "来自 [{}] : {}\n" +
+                "--------------------------------------------",
+                header.getUID(), message.getBody());
         //进行幂等性判断
         if (!receivedMessage.isP2PMessageExist(header.getMID())) {
             receivedMessage.putP2PReceivedMessage(header.getMID(), System.currentTimeMillis());

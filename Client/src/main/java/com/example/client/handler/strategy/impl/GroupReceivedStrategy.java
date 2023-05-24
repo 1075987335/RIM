@@ -21,15 +21,15 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
 
     @Autowired
     ReceivedMessage receivedMessage;
+
     @Override
     public void handle(IM_Message message) {
         Header header = message.getHeader();
-        log.info("--------------------------------------------");
-        log.info(" ");
-        log.info("来自群组 {} 用户 {} : {}", header.getGID(), header.getUID(), message.getBody());
-        log.info(" ");
-        log.info("--------------------------------------------");
-
+        log.info("\n" +
+                "--------------------------------------------\n" +
+                "来自群组 {} 用户 {} : {}\n" +
+                "--------------------------------------------",
+                header.getGID(), header.getUID(), message.getBody());
         //进行幂等性判断
         if (!receivedMessage.isGroupMessageExist(header.getMID())) {
             receivedMessage.putGroupReceivedMessage(header.getMID(), System.currentTimeMillis());

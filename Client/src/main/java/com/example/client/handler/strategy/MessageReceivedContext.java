@@ -26,6 +26,5 @@ public class MessageReceivedContext {
         } catch (ClassNotFoundException e) {
             log.info("获取策略失败...");
         }
-
     }
 }

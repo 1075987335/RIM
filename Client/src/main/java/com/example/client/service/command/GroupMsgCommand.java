@@ -48,6 +48,7 @@ public class GroupMsgCommand implements InnerCommand {
             unprocessedRequests.put(parse.getMID(), parse);
             AckJob ackJob = new AckJob(parse.getMID(), count);
             ackJob.setDelay_time(delay_time);
+            ackJob.setTaskId(parse.getMID());
             ringBufferWheel.addTask(ackJob);
             sendMessage.send(parse);
         }

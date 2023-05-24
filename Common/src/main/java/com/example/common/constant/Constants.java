@@ -16,6 +16,13 @@ public class Constants {
     }
 
     public static class RedisConstants {
+
+        /**
+         * 用户会话信息
+         * 格式：UserId:userSession
+         */
+        public static final String UserSession = ":userSession";
+
         /**
          * 单聊离线消息
          * 格式：FromId:P2PMessage:ToId
@@ -56,6 +63,7 @@ public class Constants {
          * 用户路由信息
          */
         public static final String UserRoute = ":userRoute";
+
     }
 
     public static class RabbitmqConstants {

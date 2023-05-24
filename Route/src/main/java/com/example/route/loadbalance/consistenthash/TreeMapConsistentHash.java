@@ -1,11 +1,13 @@
 package com.example.route.loadbalance.consistenthash;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 @Component
+@Slf4j
 public class TreeMapConsistentHash extends AbstractConsistentHash {
     private TreeMap<Long,String> treeMap = new TreeMap() ;
 
@@ -31,13 +33,12 @@ public class TreeMapConsistentHash extends AbstractConsistentHash {
     @Override
     public String getFirstNodeValue(String value) {
         long hash = super.hash(value);
-        System.out.println("value=" + value + " hash = " + hash);
         SortedMap<Long, String> last = treeMap.tailMap(hash);
         if (!last.isEmpty()) {
             return last.get(last.firstKey());
         }
         if (treeMap.size() == 0){
-            System.out.println("无可用服务器节点");
+            log.info("无可用服务节点...");
         }
         return treeMap.firstEntry().getValue();
     }

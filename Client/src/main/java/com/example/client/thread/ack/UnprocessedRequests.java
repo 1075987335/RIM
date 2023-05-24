@@ -22,7 +22,7 @@ public class UnprocessedRequests {
         if(message != null){
             NORMAL_MESSAGE_UNPROCESS_MAP.remove(messageId);
         }
-        log.info("消息确认完成！");
+        log.info("消息确认完成，移出AckList...");
     }
 
     public SendMessageVo get(long messageId){

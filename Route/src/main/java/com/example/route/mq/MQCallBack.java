@@ -4,6 +4,7 @@ package com.example.route.mq;
 import com.example.MessageSendService;
 import com.example.client.response.AckVo;
 import com.example.common.constant.Constants;
+import com.example.common.util.RingBufferWheel;
 import com.example.route.thread.ack.UnprocessedRequests;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ReturnedMessage;
@@ -21,6 +22,9 @@ public class MQCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
 
     @Autowired
     UnprocessedRequests unprocessedRequests;
+
+    @Autowired
+    RingBufferWheel outTimeJobExecutor;
 
     @Override
     public void confirm(CorrelationData correlationData, boolean b, String s) {
@@ -49,16 +53,20 @@ public class MQCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
             }
             else if(messageType.equals("P2PAck")){
                 long mid = Long.parseLong(messageInfo[1]);
+                outTimeJobExecutor.cancel(mid);
                 unprocessedRequests.finish(mid);
+
             }
             else if(messageType.equals("GroupAck")){
                 long mid = Long.parseLong(messageInfo[1]);
                 long tid = Long.parseLong(messageInfo[2]);
                 long gid = Long.parseLong(messageInfo[3]);
+                outTimeJobExecutor.cancel(mid & tid);
                 unprocessedRequests.finish(mid, tid, gid);
             }
             else if(messageType.equals("Off")){
                 long mid = Long.parseLong(messageInfo[1]);
+                outTimeJobExecutor.cancel(mid);
                 unprocessedRequests.finish(mid);
             }
         }

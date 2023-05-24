@@ -38,7 +38,7 @@ public class RIMServerHandler extends SimpleChannelInboundHandler<IM_Message> {
         if (evt instanceof IdleStateEvent){
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt ;
             if (idleStateEvent.state() == IdleState.READER_IDLE){
-                log.info("检查客户端是否存活");
+                log.info("检查客户端是否存活..");
                 if(inactiveHandler == null)
                     inactiveHandler = SpringBeanFactory.getBean("InactiveHandler",InactiveHandler.class);
                 inactiveHandler.handler(ctx);
@@ -48,7 +48,7 @@ public class RIMServerHandler extends SimpleChannelInboundHandler<IM_Message> {
     }
 
     public void channelActive(ChannelHandlerContext ctx){
-        log.info("客户端连接成功，{}通道激活！",ctx.channel().localAddress().toString());
+        log.info("客户端连接成功，[{}]通道激活！",ctx.channel().localAddress().toString());
     }
 
     /**
@@ -74,22 +74,22 @@ public class RIMServerHandler extends SimpleChannelInboundHandler<IM_Message> {
     /**
      * 接收数据并处理
      * @param ch
-     * @param s
+     * @param message
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ch, IM_Message s) {
-        log.info("收到消息,type = {}, body = {}",s.getHeader().getType(),s.getBody());
-        Header header=s.getHeader();
+    protected void channelRead0(ChannelHandlerContext ch, IM_Message message) {
+        log.info("收到消息：{}", message);
+        Header header=message.getHeader();
         if(header.getType() == Constants.CommandType.LOGIN){
             UserChannelFactory.put(header.getUID(), ch.channel());
-            log.info("用户{}注册成功",header.getUID());
+            log.info("用户[{}]注册成功",header.getUID());
             NettyAttrUtil.updateReadTime(ch.channel(),System.currentTimeMillis());
             log.info("更新心跳时间成功！");
             if(sendOfflineMessage == null){
                 sendOfflineMessage = SpringBeanFactory.getBean("SendOfflineMessage",SendOfflineMessage.class);
             }
             log.info("离线消息发送中...");
-            sendOfflineMessage.send(s);
+            sendOfflineMessage.send(message);
         }
         else if(header.getType() == Constants.CommandType.PING){
             log.info("收到客户端{}心跳！",UserChannelFactory.getUserId(ch.channel()).getUID());
@@ -99,13 +99,12 @@ public class RIMServerHandler extends SimpleChannelInboundHandler<IM_Message> {
             Header head = new Header();
             head.setType(Constants.CommandType.PONG);
             heartBeat.setHeader(head);
-            //heartBeat.setBody("PONG");
             ch.writeAndFlush(heartBeat).addListener((ChannelFutureListener) future ->{
                 if(future.isSuccess()){
-                    log.info("心跳发送成功！");
+                    log.info("心跳pong发送成功！");
                 }
                 else
-                    log.info("心跳发送失败！");
+                    log.info("心跳pong发送失败！");
             });
         }
     }

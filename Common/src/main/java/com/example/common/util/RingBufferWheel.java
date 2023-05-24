@@ -52,7 +52,7 @@ public class RingBufferWheel {
     private Condition condition = lock.newCondition();
 
     private AtomicInteger taskId = new AtomicInteger();
-    private Map<Integer, Task> taskMap = new ConcurrentHashMap<>(16);
+    private Map<Long, Task> taskMap = new ConcurrentHashMap<>(16);
 
     public RingBufferWheel(ThreadPoolExecutor executorService){
         this.executorService = executorService;
@@ -81,10 +81,8 @@ public class RingBufferWheel {
      *
      * @param task business task extends {@link Task}
      */
-    public int addTask(Task task) {
+    public long addTask(Task task) {
         int key = task.getDelay_time();
-        int id;
-
         try {
             lock.lock();
             int index = mod(key, bufferSize);
@@ -102,15 +100,15 @@ public class RingBufferWheel {
                 sets.add(task);
                 put(key, sets);
             }
-            id = taskId.incrementAndGet();
-            task.setTaskId(id);
-            taskMap.put(id, task);
+            //id = taskId.incrementAndGet();
+            //task.setTaskId(id);
+            taskMap.put(task.getTaskId(), task);
             size++;
         } finally {
             lock.unlock();
         }
         start();
-        return id;
+        return task.getTaskId();
     }
 
 
@@ -119,7 +117,7 @@ public class RingBufferWheel {
      * @param id unique id through {@link #addTask(Task)}
      * @return
      */
-    public boolean cancel(int id) {
+    public boolean cancel(long id) {
 
         boolean flag = false;
         Set<Task> tempTask = new HashSet<>();
@@ -147,6 +145,7 @@ public class RingBufferWheel {
         } finally {
             lock.unlock();
         }
+        log.info("消息确认成功，超时计时器取消...");
 
         return flag;
     }
@@ -306,7 +305,7 @@ public class RingBufferWheel {
         /**
          * The unique ID of the task
          */
-        private int taskId ;
+        private long taskId ;
 
         @Override
         public void run() {
@@ -340,11 +339,11 @@ public class RingBufferWheel {
             this.index = index;
         }
 
-        public int getTaskId() {
+        public long getTaskId() {
             return taskId;
         }
 
-        public void setTaskId(int taskId) {
+        public void setTaskId(long taskId) {
             this.taskId = taskId;
         }
     }
@@ -359,7 +358,6 @@ public class RingBufferWheel {
                     for (Task task : tasks) {
                         executorService.submit(task);
                     }
-
                     if (++index > bufferSize - 1) {
                         index = 0;
                     }

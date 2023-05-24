@@ -35,6 +35,7 @@ public class BeforeSendService {
         if(type == Constants.CommandType.P2P_MSG){
             P2PAckJob p2PAckJob =new P2PAckJob(message.getHeader().getMID(),3);
             p2PAckJob.setDelay_time(delay_time);
+            p2PAckJob.setTaskId(sendMessageVo.getMID());
             ringBufferWheel.addTask(p2PAckJob);
         }
         else if(type == Constants.CommandType.GROUP_MSG){
@@ -42,6 +43,8 @@ public class BeforeSendService {
             long tid = message.getHeader().getTID();
             long gid = message.getHeader().getGID();
             GroupAckJob groupAckJob = new GroupAckJob(mid, tid, gid, 3);
+            groupAckJob.setDelay_time(delay_time);
+            groupAckJob.setTaskId(sendMessageVo.getMID() & TID);
             ringBufferWheel.addTask(groupAckJob);
         }
     }
