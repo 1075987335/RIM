@@ -23,6 +23,7 @@ public class MQSend {
     KryoSerializer kryoSerializer;
 
     public void sendMessage(IM_Message msg, boolean isOffline){
+        log.info("即将发送mq消息:{}", msg);
         byte[] bytes = kryoSerializer.serialize(msg);
         String id;
         String routingKey;
@@ -35,6 +36,7 @@ public class MQSend {
             routingKey = routingKeyGet(msg);
         }
         CorrelationData correlationData = new CorrelationData(id);
+        log.info("发送消息的routingKey：{}, id：{}", routingKey, id);
         rabbitTemplate.convertAndSend(Constants.RabbitmqConstants.Routing, routingKey, bytes, correlationData);
     }
 

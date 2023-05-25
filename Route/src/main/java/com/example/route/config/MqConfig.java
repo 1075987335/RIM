@@ -50,14 +50,15 @@ public class MqConfig {
     public Queue p2pOfflineQueue(){
         return new Queue(Constants.RabbitmqConstants.P2POfflineMessage);
     }
+
     //指定相应功能的交换机
     @Bean
     TopicExchange exchange(){
         return new TopicExchange(Constants.RabbitmqConstants.Routing);
     }
 
-    //将队列与交换机进行绑定
 
+    //将队列与交换机进行绑定
     @Bean
     Binding bindingP2POfflineQueue(){
         return BindingBuilder.bind(p2pOfflineQueue()).to(exchange()).with(Constants.RabbitmqConstants.P2POfflineMessage);
