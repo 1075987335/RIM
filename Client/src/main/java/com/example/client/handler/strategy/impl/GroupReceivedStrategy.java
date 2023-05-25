@@ -38,7 +38,7 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
             sendMessage.sendACK(ackVo);
         }
         else{
-            log.info("去重判断...");
+            log.info("幂等性处理...");
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.mq;
 
-import com.example.common.serializer.kyro.KryoSerializer;
 import com.example.common.proto.IM_Message;
+import com.example.common.serializer.kyro.KryoSerializer;
 import com.example.service.StoreMessageService;
 import com.example.thread.StoreJob;
 import com.rabbitmq.client.Channel;
