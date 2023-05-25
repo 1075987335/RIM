@@ -51,4 +51,8 @@ public class ReceivedMessage {
         }
         log.info("清除完毕！");
     }
+    public void clear(){
+        P2P.clear();
+        GROUP.clear();
+    }
 }

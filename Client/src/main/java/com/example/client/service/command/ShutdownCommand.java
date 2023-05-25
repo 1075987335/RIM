@@ -3,6 +3,7 @@ package com.example.client.service.command;
 import com.example.client.client.RIMClient;
 import com.example.client.config.ClientState;
 import com.example.client.service.InnerCommand;
+import com.example.client.thread.duplicate.ReceivedMessage;
 import com.example.common.util.RingBufferWheel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class ShutdownCommand implements InnerCommand {
     @Autowired
     ScheduledThreadPoolExecutor scheduleJobExecutor;
 
+    @Autowired
+    ReceivedMessage receivedMessage;
+
     @Override
     public void process(String msg) {
         if(!msg.equals(":q")){
@@ -32,7 +36,7 @@ public class ShutdownCommand implements InnerCommand {
             return;
         }
         clientState.setNormalClose(true);
-
         client.close();
+        receivedMessage.clear();
     }
 }
