@@ -60,7 +60,7 @@ public class MqConfig {
 
     @Bean
     Binding bindingP2POfflineQueue(){
-        return BindingBuilder.bind(p2pACKQueue()).to(exchange()).with(Constants.RabbitmqConstants.P2POfflineMessage);
+        return BindingBuilder.bind(p2pOfflineQueue()).to(exchange()).with(Constants.RabbitmqConstants.P2POfflineMessage);
     }
 
     @Bean
@@ -82,6 +82,4 @@ public class MqConfig {
     Binding bindingGroupACKQueue(){
         return BindingBuilder.bind(groupACKQueue()).to(exchange()).with(Constants.RabbitmqConstants.GroupACK);
     }
-
-
 }

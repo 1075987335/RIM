@@ -33,7 +33,7 @@ public class P2PMessageReceiver {
     public void process(byte[] msg, Message message, Channel channel) throws IOException {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         IM_Message imMessage=kryoSerializer.deserialize(msg,IM_Message.class);
-        log.info("[P2PMessageMQ]收到消息：{}",imMessage.getBody());
+        log.info("[P2PMessageMQ]收到消息：{}",imMessage);
         try {
             storeJobExecutor.execute(new StoreJob(imMessage, channel, deliveryTag, false));
         } catch (Exception e) {

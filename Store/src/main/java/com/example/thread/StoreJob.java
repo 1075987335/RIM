@@ -34,9 +34,11 @@ public class StoreJob implements Runnable{
         byte type = message.getHeader().getType();
         try {
             if(isOffline == true && type == Constants.CommandType.P2P_MSG){
+                log.info("执行了Offline操作");
                 service.doStoreP2POfflineMessage(message);
             }
             else if(type == Constants.CommandType.P2P_MSG){
+                log.info("执行了P2P操作");
                 service.doStoreP2PMessage(message);
             }
             else if(type == Constants.CommandType.P2P_ACK){

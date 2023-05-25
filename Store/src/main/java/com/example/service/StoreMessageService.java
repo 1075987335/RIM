@@ -66,7 +66,7 @@ public class StoreMessageService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void doStoreP2POfflineMessage(IM_Message message){
-        Header header = new Header();
+        Header header = message.getHeader();
         try {
             redisUtil.setP2PMessage(header.getUID(), header.getTID(), header.getMID(), (String)message.getBody());
             log.info("单聊离线消息:[{}]成功保存在redis中", header.getMID());
