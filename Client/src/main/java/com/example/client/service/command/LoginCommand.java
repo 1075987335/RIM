@@ -16,6 +16,7 @@ public class LoginCommand implements InnerCommand {
 
     @Autowired
     RIMClient rimClient;
+
     @Override
     public void process(String msg) {
         if(msg.split(" ").length != 2){

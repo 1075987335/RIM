@@ -1,5 +1,6 @@
 package com.example.client.handler.strategy.impl;
 
+import com.example.client.config.UserInfo;
 import com.example.client.handler.strategy.MessageReceivedStrategy;
 import com.example.client.response.AckVo;
 import com.example.client.service.send.SendMessage;
@@ -22,14 +23,22 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
     @Autowired
     ReceivedMessage receivedMessage;
 
+    @Autowired
+    UserInfo userInfo;
+
     @Override
     public void handle(IM_Message message) {
         Header header = message.getHeader();
-        log.info("\n" +
-                "--------------------------------------------\n" +
-                "来自群组 [{}] 用户 [{}] : {}\n" +
-                "--------------------------------------------",
-                header.getGID(), header.getUID(), message.getBody());
+
+        //保证消息不会发给自己
+        if(header.getTID() != userInfo.getUserID()){
+            log.info("\n" +
+                            "--------------------------------------------\n" +
+                            "来自群组 [{}] 用户 [{}] : {}\n" +
+                            "--------------------------------------------",
+                    header.getGID(), header.getUID(), message.getBody());
+        }
+
         //进行幂等性判断
         if (!receivedMessage.isGroupMessageExist(header.getMID())) {
             receivedMessage.putGroupReceivedMessage(header.getMID(), System.currentTimeMillis());
