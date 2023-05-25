@@ -1,6 +1,6 @@
 # RIM
 
-![image-20230525223934778](README.assets/image-20230525223934778.png)
+![image-20230525224753851](README.assets/image-20230525224753851.png)
 
 ## 介绍
 

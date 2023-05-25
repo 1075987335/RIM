@@ -3,13 +3,6 @@ package com.example.common.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Function:
- *
- * @author crossoverJie
- *         Date: 2018/12/26 18:38
- * @since JDK 1.8
- */
 public enum SystemCommandEnum {
 
             P2P(":p2p","单聊发送消息","P2PMsgCommand"),
