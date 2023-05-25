@@ -27,7 +27,7 @@ public class P2PReceivedStrategy implements MessageReceivedStrategy {
         Header header = message.getHeader();
         log.info("\n" +
                 "--------------------------------------------\n" +
-                "来自 [{}] : {}\n" +
+                "来自用户 [{}] : {}\n" +
                 "--------------------------------------------",
                 header.getUID(), message.getBody());
         //进行幂等性判断

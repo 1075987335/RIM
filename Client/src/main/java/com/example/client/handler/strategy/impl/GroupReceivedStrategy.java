@@ -27,7 +27,7 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
         Header header = message.getHeader();
         log.info("\n" +
                 "--------------------------------------------\n" +
-                "来自群组 {} 用户 {} : {}\n" +
+                "来自群组 [{}] 用户 [{}] : {}\n" +
                 "--------------------------------------------",
                 header.getGID(), header.getUID(), message.getBody());
         //进行幂等性判断

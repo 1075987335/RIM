@@ -8,11 +8,11 @@ import java.io.Serializable;
 public class OfflineResponseVo implements Serializable {
     long UID;
 
-    long ID;
-
     long TID;
 
     long MID;
+
+    long GID;
 
     byte type;
 

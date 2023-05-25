@@ -45,7 +45,7 @@ public class RedisUtil {
      * @param msgId
      * @return
      */
-    public Set<String> getP2PMessage(long fromId,long toId,Long msgId){
+    public Set<String> getP2PMessage(long fromId, long toId, Long msgId){
         String key = fromId + Constants.RedisConstants.UserP2PMessageStore + toId;
         Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId, Long.MAX_VALUE);
         return set;
@@ -62,21 +62,20 @@ public class RedisUtil {
         String key = Constants.RedisConstants.GorupMessageStore + groupId;
 
         //保存消息id信息
-        String value = msgId + ":" + msg;
+        String value = msgId + ":" + msg + ":" + fromId;
         redisTemplate.opsForZSet().add(key, value, msgId);
     }
 
     /**
      * 获取群聊离线消息
-     * @param fromId
      * @param groupId
      * @param msgId
      * @return
      */
-    public Set<String> getGroupMessage(long fromId, long groupId, long msgId){
+    public Set<String> getGroupMessage(long groupId, long msgId){
         String key = Constants.RedisConstants.GorupMessageStore + groupId;
 
-        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId+1, Long.MAX_VALUE);
+        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId, Long.MAX_VALUE);
         return set;
     }
 

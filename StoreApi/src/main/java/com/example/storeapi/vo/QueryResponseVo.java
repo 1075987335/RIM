@@ -9,7 +9,9 @@ public class QueryResponseVo implements Serializable {
 
     byte type;
 
-    long ID;
+    long TID;
+
+    long GID;
 
     long UID;
 

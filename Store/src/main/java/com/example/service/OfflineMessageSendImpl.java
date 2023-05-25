@@ -35,23 +35,22 @@ public class OfflineMessageSendImpl implements OfflineMessageSend {
         List<OfflineResponseVo> list = new ArrayList<>();
         for(QueryResponseVo v : latestMessageId){
             if(v.getType() == Constants.CommandType.P2P_MSG){
-                Set<String> p2PMessage = redisUtil.getP2PMessage(v.getID(), v.getUID(), v.getMID());
+                Set<String> p2PMessage = redisUtil.getP2PMessage(v.getUID(), v.getTID(), v.getMID());
                 for(String str : p2PMessage){
                     OfflineResponseVo parse = ConvertToOfflineResponseVo.parse(str);
                     parse.setType(Constants.CommandType.P2P_MSG);
                     parse.setUID(v.getUID());
-                    parse.setID(v.getID());
+                    parse.setTID(v.getTID());
                     list.add(parse);
                 }
             }
             if(v.getType() == Constants.CommandType.GROUP_MSG){
-                Set<String> groupMessage = redisUtil.getGroupMessage(v.getUID(), v.getID(), v.getMID());
+                Set<String> groupMessage = redisUtil.getGroupMessage(v.getGID(), v.getMID());
                 for(String str : groupMessage){
                     OfflineResponseVo parse = ConvertToOfflineResponseVo.parse(str);
                     parse.setType(Constants.CommandType.GROUP_MSG);
-                    parse.setUID(v.getUID());
-                    parse.setID(v.getID());
-                    parse.setTID(offlineRequestVo.getUID());
+                    parse.setGID(v.getGID());
+                    parse.setTID(v.getTID());
                     list.add(parse);
                 }
             }

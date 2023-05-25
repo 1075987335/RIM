@@ -140,7 +140,7 @@ public class StoreMessageService {
 
         //更新最新接收消息id
         UpdateWrapper updateWrapper=new UpdateWrapper();
-        updateWrapper.eq("user_id",header.getUID());
+        updateWrapper.eq("user_id",header.getTID());
         updateWrapper.eq("group_id",header.getGID());
         updateWrapper.set("latest_message_id",header.getMID());
         try {

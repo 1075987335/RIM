@@ -16,9 +16,9 @@ public class EntityToQueryResParse {
         for(UserGroupsEntity e : userGroups){
             QueryResponseVo vo = new QueryResponseVo();
             vo.setType(Constants.CommandType.GROUP_MSG);
-            vo.setID(e.getGroupId());
+            vo.setGID(e.getGroupId());
             vo.setMID(e.getLatestMessageId());
-            vo.setUID(e.getUserId());
+            vo.setTID(e.getUserId());
             list.add(vo);
         }
 
@@ -26,10 +26,9 @@ public class EntityToQueryResParse {
         for(UserFriendsEntity e : userFriends){
             QueryResponseVo vo = new QueryResponseVo();
             vo.setType(Constants.CommandType.P2P_MSG);
-            vo.setID(e.getFriendId());
-            vo.setUID(e.getUserId());
+            vo.setUID(e.getFriendId());
+            vo.setTID(e.getUserId());
             vo.setMID(e.getLatestMessageId());
-
             list.add(vo);
         }
         return list;

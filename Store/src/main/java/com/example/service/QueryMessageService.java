@@ -49,6 +49,7 @@ public class QueryMessageService{
         List<UserGroupsEntity> userGroups = userGroupsMapper.selectList(wrapperGroup);
 
         List<QueryResponseVo> parse = EntityToQueryResParse.parse(userGroups, userFriends);
+        log.info("刚查询出来的：{}", parse);
         return parse;
     }
 }

@@ -12,11 +12,11 @@ public class ConvertDubboPOJO {
         List<OfflineResponseVo> result = new ArrayList<>();
         for(HashMap map : list){
             OfflineResponseVo vo = new OfflineResponseVo();
-            vo.setID((long)map.get("iD"));
+            vo.setTID((long)map.get("tID"));
             vo.setUID((long)map.get("uID"));
             vo.setMID((long)map.get("mID"));
             vo.setData(map.get("data"));
-            vo.setTID((long)map.get("tID"));
+            vo.setGID((long)map.get("gID"));
             vo.setType(Byte.parseByte(map.get("type").toString()));
             result.add(vo);
         }
