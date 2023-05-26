@@ -4,7 +4,7 @@ import com.example.client.request.SendMessageVo;
 import com.example.common.route.RouteInfo;
 import com.example.common.util.RedisUtil;
 import com.example.common.util.RouteInfoParseUtil;
-import com.example.route.kit.DubboUtil;
+import com.example.route.utils.DubboUtil;
 import com.example.route.utils.SpringBeanFactory;
 import com.example.server.SendMessage;
 import com.example.server.reqeust.SendRequestVo;

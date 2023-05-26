@@ -22,6 +22,7 @@ public class ConsistentHashHandle implements RouteHandle {
 
     @Override
     public String routeServer(List<String> values, String key) {
+        hash.clear();
         return hash.process(values, key);
     }
 }

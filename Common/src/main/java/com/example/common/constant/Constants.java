@@ -102,4 +102,8 @@ public class Constants {
         public static int MESSAGE_SYMBLE = Integer.MIN_VALUE;
     }
 
+    public static class Cache{
+        public static String ZK_CACHE = "zookeeperCache";
+    }
+
 }

@@ -5,6 +5,7 @@ import com.example.client.init.RIMClientHandlerInitializer;
 import com.example.client.request.LoginVO;
 import com.example.client.response.ServerInfo;
 import com.example.client.service.UserService;
+import com.example.client.thread.duplicate.ReceivedMessage;
 import com.example.client.thread.duplicate.RemoveReceivedJob;
 import com.example.client.thread.reconnect.ReConnectManager;
 import com.example.client.util.SingleChannelFactory;
@@ -45,6 +46,9 @@ public class RIMClient {
     @Autowired
     private ScheduledThreadPoolExecutor scheduleJobExecutor;
 
+    @Autowired
+    ReceivedMessage receivedMessage;
+
     Runnable task = null;
 
     public void start(){
@@ -52,6 +56,7 @@ public class RIMClient {
         loginVO.setUID(userInfo.getUserID());
         //登陆操作
         serverInfo = userService.login(loginVO);
+        log.info("serverInfo:{}", serverInfo);
         //根据登陆返回的服务器信息进行client服务器启动
         startClient();
         //向server注册，发送登陆包
@@ -124,6 +129,11 @@ public class RIMClient {
         //清除工厂信息
         channelFactory.clear();
 
+        //关闭线程组
+        group.shutdownNow();
+
+        //清除幂等性处理
+        receivedMessage.clear();
         //移除定时任务
         scheduleJobExecutor.remove(task);
         log.info("服务器关闭成功！");

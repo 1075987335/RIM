@@ -19,6 +19,7 @@ public class ServerApplication implements CommandLineRunner {
 
     @Autowired
     ServerConfig serverConfig;
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ServerApplication.class,args);
     }

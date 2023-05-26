@@ -1,4 +1,4 @@
-package com.example.route.kit;
+package com.example.route.utils;
 
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;

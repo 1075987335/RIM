@@ -3,7 +3,7 @@ package com.example.route.service;
 import com.example.MessageSendService;
 import com.example.OfflineMessageService;
 import com.example.client.request.SendMessageVo;
-import com.example.route.kit.DubboUtil;
+import com.example.route.utils.DubboUtil;
 import com.example.route.utils.ConvertDubboPOJO;
 import com.example.route.utils.ConvertToSendMessageVo;
 import com.example.storeapi.OfflineMessageSend;

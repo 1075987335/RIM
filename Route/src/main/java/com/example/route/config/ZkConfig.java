@@ -1,10 +1,12 @@
 package com.example.route.config;
 
 import lombok.Data;
+import org.I0Itec.zkclient.ZkClient;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 @Data
 public class ZkConfig {
 
@@ -13,4 +15,9 @@ public class ZkConfig {
 
     @Value("${zk.root}")
     private String zkRoot;
+
+    @Bean("zkClient")
+    public ZkClient zkClient(){
+        return new ZkClient(zkAddr, Integer.MAX_VALUE);
+    }
 }

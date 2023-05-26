@@ -7,7 +7,7 @@ import com.example.client.response.ServerInfo;
 import com.example.common.route.RouteInfo;
 import com.example.common.util.RedisUtil;
 import com.example.common.util.RouteInfoParseUtil;
-import com.example.route.kit.ZKit;
+import com.example.route.zk.ZKit;
 import com.example.route.loadbalance.consistenthash.ConsistentHashHandle;
 import com.example.storeapi.OfflineMessageSend;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,13 @@ public class UserServiceImpl implements RouteUserService {
     @Override
     public ServerInfo Login(LoginVO loginVO) {
         List<String> serverList=zKit.getAllNode();
+        if(serverList == null || serverList.isEmpty()){
+            log.info("当前无路由服务器可选！");
+            return null;
+        }
         String server=handle.routeServer(serverList,String.valueOf(loginVO.getUID()));
+        //zKit.subscribeDataChanges(server);
+
         RouteInfo route= RouteInfoParseUtil.parse(server);
         ServerInfo serverInfo=new ServerInfo();
         serverInfo.setCode("200");

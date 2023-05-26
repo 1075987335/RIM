@@ -26,7 +26,7 @@ public abstract class AbstractConsistentHash {
      */
     protected abstract String getFirstNodeValue(String value);
 
-    protected abstract void remove();
+    protected abstract void clear();
 
     /**
      * 传入节点列表以及客户端信息获取一个服务节点

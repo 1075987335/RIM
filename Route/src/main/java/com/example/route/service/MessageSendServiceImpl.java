@@ -9,7 +9,7 @@ import com.example.common.proto.IM_Message;
 import com.example.common.route.RouteInfo;
 import com.example.common.util.RedisUtil;
 import com.example.common.util.RouteInfoParseUtil;
-import com.example.route.kit.DubboUtil;
+import com.example.route.utils.DubboUtil;
 import com.example.route.loadbalance.consistenthash.ConsistentHashHandle;
 import com.example.route.mq.MQSend;
 import com.example.route.service.strategy.send.MessageSendContext;

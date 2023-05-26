@@ -47,7 +47,7 @@ public class RedisUtil {
      */
     public Set<String> getP2PMessage(long fromId, long toId, Long msgId){
         String key = fromId + Constants.RedisConstants.UserP2PMessageStore + toId;
-        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId, Long.MAX_VALUE);
+        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId+1, Long.MAX_VALUE);
         return set;
     }
 
@@ -75,7 +75,7 @@ public class RedisUtil {
     public Set<String> getGroupMessage(long groupId, long msgId){
         String key = Constants.RedisConstants.GorupMessageStore + groupId;
 
-        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId, Long.MAX_VALUE);
+        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId+1, Long.MAX_VALUE);
         return set;
     }
 

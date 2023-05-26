@@ -26,7 +26,7 @@ public class TreeMapConsistentHash extends AbstractConsistentHash {
         treeMap.put(key, value);
     }
 
-    public void remove(){
+    public void clear(){
         treeMap.clear();
     }
 
