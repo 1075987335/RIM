@@ -28,14 +28,17 @@ public class RedisUtil {
     public void setP2PMessage(long fromId,long toId,long msgId,String msg){
         String key = fromId + Constants.RedisConstants.UserP2PMessageStore + toId;
 
+        long id = msgId >> 22;
         //redis中也要保存消息id信息
         String value = msgId + ":" + msg;
-        redisTemplate.opsForZSet().add(key,value,msgId);
+        redisTemplate.opsForZSet().add(key,value,id);
     }
 
     public void deleteP2PMessage(long fromId, long toId, long msgId){
         String key = fromId + Constants.RedisConstants.UserP2PMessageStore + toId;
-        redisTemplate.opsForZSet().removeRangeByScore(key, msgId, msgId);
+
+        long id = msgId >> 22;
+        redisTemplate.opsForZSet().removeRangeByScore(key, id, id);
     }
 
     /**
@@ -47,7 +50,8 @@ public class RedisUtil {
      */
     public Set<String> getP2PMessage(long fromId, long toId, Long msgId){
         String key = fromId + Constants.RedisConstants.UserP2PMessageStore + toId;
-        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId+1, Long.MAX_VALUE);
+        long id = msgId >> 22;
+        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, id+1, Long.MAX_VALUE);
         return set;
     }
 
@@ -61,9 +65,10 @@ public class RedisUtil {
     public void setGroupMessage(long fromId, long groupId, long msgId, String msg){
         String key = Constants.RedisConstants.GorupMessageStore + groupId;
 
+        long id = msgId >> 22;
         //保存消息id信息
         String value = msgId + ":" + msg + ":" + fromId;
-        redisTemplate.opsForZSet().add(key, value, msgId);
+        redisTemplate.opsForZSet().add(key, value, id);
     }
 
     /**
@@ -75,7 +80,8 @@ public class RedisUtil {
     public Set<String> getGroupMessage(long groupId, long msgId){
         String key = Constants.RedisConstants.GorupMessageStore + groupId;
 
-        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, msgId+1, Long.MAX_VALUE);
+        long id = msgId >> 22;
+        Set<String> set = redisTemplate.opsForZSet().rangeByScore(key, id+1, Long.MAX_VALUE);
         return set;
     }
 

@@ -3,6 +3,7 @@ package com.example.client.service.command;
 import com.example.client.config.UserInfo;
 import com.example.client.request.SendMessageVo;
 import com.example.client.service.InnerCommand;
+import com.example.client.service.id.GetIdService;
 import com.example.client.service.send.SendMessage;
 import com.example.client.thread.ack.AckJob;
 import com.example.client.thread.ack.UnprocessedRequests;
@@ -30,6 +31,9 @@ public class GroupMsgCommand implements InnerCommand {
     @Autowired
     RingBufferWheel ringBufferWheel;
 
+    @Autowired
+    GetIdService getIdService;
+
     @Value("${ringbufferwheel.count}")
     int count;
 
@@ -42,7 +46,8 @@ public class GroupMsgCommand implements InnerCommand {
             return;
         }
         String[] totalMsg=msg.split(" ");
-        SendMessageVo parse = ConvertToSendMessageVo.convert(totalMsg, userInfo, Constants.CommandType.GROUP_MSG);
+        long id = getIdService.getNextId("key");
+        SendMessageVo parse = ConvertToSendMessageVo.convert(totalMsg, userInfo, id, Constants.CommandType.GROUP_MSG);
         if(parse != null){
             //加入acklist
             unprocessedRequests.put(parse.getMID(), parse);

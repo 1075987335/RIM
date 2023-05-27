@@ -31,7 +31,7 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
         Header header = message.getHeader();
 
         //保证消息不会发给自己
-        if(header.getTID() != userInfo.getUserID()){
+        if(header.getUID() != userInfo.getUserID()){
             log.info("\n" +
                             "--------------------------------------------\n" +
                             "来自群组 [{}] 用户 [{}] : {}\n" +

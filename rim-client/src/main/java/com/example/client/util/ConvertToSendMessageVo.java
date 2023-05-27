@@ -6,12 +6,12 @@ import com.example.common.constant.Constants;
 
 public class ConvertToSendMessageVo {
 
-    public static SendMessageVo convert(String[] str, UserInfo userInfo, byte type){
+    public static SendMessageVo convert(String[] str, UserInfo userInfo, long id, byte type){
         SendMessageVo sendMessageVo = new SendMessageVo();
         sendMessageVo.setType(type);
         sendMessageVo.setData(str[2]);
         sendMessageVo.setUID(userInfo.getUserID());
-        sendMessageVo.setMID(System.currentTimeMillis());
+        sendMessageVo.setMID(id);
         if(type == Constants.CommandType.P2P_MSG){
             sendMessageVo.setTID(Long.parseLong(str[1]));
         }
