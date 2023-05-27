@@ -21,15 +21,14 @@
     </properties>
 
     <modules>
-        <module>Service</module>
-        <module>Route</module>
-        <module>Common</module>
-        <module>Client</module>
-        <module>Server</module>
-        <module>RouteApi</module>
-        <module>ServerApi</module>
-        <module>Store</module>
-        <module>StoreApi</module>
+        <module>rim-route</module>
+        <module>rim-common</module>
+        <module>rim-client</module>
+        <module>rim-server</module>
+        <module>rim-route-api</module>
+        <module>rim-server-api</module>
+        <module>rim-store</module>
+        <module>rim-store-api</module>
     </modules>
 
 <dependencyManagement>
