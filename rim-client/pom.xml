@@ -10,8 +10,9 @@
     <groupId>com.example</groupId>
     <artifactId>rim-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Client</name>
-    <description>Client</description>
+    <name>rim-client</name>
+    <description>rim-client</description>
+
     <packaging>jar</packaging>
 
     <properties>

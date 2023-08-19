@@ -13,6 +13,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>rim-id-generator</name>
     <description>rim-id-generator</description>
+
+    <modules>
+        <module>leaf-core</module>
+        <module>leaf-server</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

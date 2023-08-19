@@ -9,11 +9,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.example</groupId>
     <artifactId>rim-route</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Route</name>
-    <description>Route</description>
+    <name>rim-route</name>
+    <description>rim-route</description>
     <packaging>jar</packaging>
 
     <properties>

@@ -10,8 +10,8 @@
     <groupId>com.example</groupId>
     <artifactId>rim-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Common</name>
-    <description>Common</description>
+    <name>rim-common</name>
+    <description>rim-common</description>
     <packaging>jar</packaging>
     <properties>
         <java.version>17</java.version>

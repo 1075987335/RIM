@@ -10,8 +10,6 @@
     <groupId>com.example</groupId>
     <artifactId>rim-store-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>StoreApi</name>
-    <description>StoreApi</description>
     <packaging>jar</packaging>
     <properties>
         <java.version>17</java.version>

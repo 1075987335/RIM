@@ -29,6 +29,8 @@
         <module>rim-server-api</module>
         <module>rim-store</module>
         <module>rim-store-api</module>
+        <module>rim-id-generator</module>
+        <module>rim-id-generator-api</module>
     </modules>
 
 <dependencyManagement>
