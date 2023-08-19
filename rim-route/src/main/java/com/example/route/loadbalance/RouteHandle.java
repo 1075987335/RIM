@@ -12,4 +12,6 @@ public interface RouteHandle {
      * @return
      */
     String routeServer(List<String> values,String key) ;
+
+    void init(List<String> values);
 }

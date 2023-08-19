@@ -35,19 +35,19 @@ public class UserChannelFactory {
         return CHANNEL_MAP;
     }
 
-    public static void remove(Channel nioSocketChannel) {
-        CHANNEL_MAP.entrySet().stream().filter(entry -> entry.getValue() == nioSocketChannel).forEach(entry -> CHANNEL_MAP.remove(entry.getKey()));
+    public static void remove(Channel channel) {
+        CHANNEL_MAP.entrySet().stream().filter(entry -> entry.getValue() == channel).forEach(entry -> CHANNEL_MAP.remove(entry.getKey()));
     }
 
     /**
      * 获取注册用户信息
-     * @param nioSocketChannel
+     * @param channel
      * @return
      */
-    public static RIMUserInfo getUserId(Channel nioSocketChannel){
+    public static RIMUserInfo getUserId(Channel channel){
         for (Map.Entry<Long, Channel> entry : CHANNEL_MAP.entrySet()) {
             Channel value = entry.getValue();
-            if (nioSocketChannel == value){
+            if (channel == value){
                 Long key = entry.getKey();
                 RIMUserInfo info = new RIMUserInfo();
                 info.setUID(key);

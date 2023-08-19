@@ -14,8 +14,6 @@ import java.util.List;
 @Component
 public class MyLoadBalance extends AbstractLoadBalance {
 
-    public static final String NAME = "localloadbalance";
-
     @Autowired
     ConsistentHashHandle handle;
 

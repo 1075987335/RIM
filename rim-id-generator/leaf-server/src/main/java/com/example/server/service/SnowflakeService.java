@@ -1,4 +1,4 @@
-package server.service;
+package com.example.server.service;
 
 import com.example.GetIDService;
 import leaf.IDGen;
@@ -10,8 +10,8 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import server.Constants;
-import server.exception.InitException;
+import com.example.server.Constants;
+import com.example.server.exception.InitException;
 
 import java.util.Properties;
 

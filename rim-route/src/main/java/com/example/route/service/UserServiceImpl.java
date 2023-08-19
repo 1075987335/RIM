@@ -7,11 +7,9 @@ import com.example.client.response.ServerInfo;
 import com.example.common.route.RouteInfo;
 import com.example.common.util.RedisUtil;
 import com.example.common.util.RouteInfoParseUtil;
-import com.example.route.zk.ZKit;
 import com.example.route.loadbalance.consistenthash.ConsistentHashHandle;
-import com.example.storeapi.OfflineMessageSend;
+import com.example.route.zk.ZKit;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,23 +31,17 @@ public class UserServiceImpl implements RouteUserService {
     @Autowired
     RedisUtil redisUtil;
 
-    @DubboReference
-    OfflineMessageSend offlineMessageSend;
-
     @Override
     public ServerInfo Login(LoginVO loginVO) {
-        List<String> serverList=zKit.getAllNode();
+        List<String> serverList = zKit.getAllNode();
         if(serverList == null || serverList.isEmpty()){
             log.info("当前无路由服务器可选！");
             return null;
         }
         String server=handle.routeServer(serverList,String.valueOf(loginVO.getUID()));
-        //zKit.subscribeDataChanges(server);
 
         RouteInfo route= RouteInfoParseUtil.parse(server);
         ServerInfo serverInfo=new ServerInfo();
-        serverInfo.setCode("200");
-        serverInfo.setMessage("success");
         serverInfo.setIp(route.getIp());
         serverInfo.setServerPort(route.getServerPort());
         serverInfo.setHttpPort(route.getHttpPort());

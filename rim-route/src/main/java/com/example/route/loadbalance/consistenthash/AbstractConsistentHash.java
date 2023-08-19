@@ -43,6 +43,12 @@ public abstract class AbstractConsistentHash {
         return server;
     }
 
+    public void init(List<String> values){
+        for (String value : values) {
+            add(hash(value), value);
+        }
+    }
+
     /**
      * hash 运算
      * @param value

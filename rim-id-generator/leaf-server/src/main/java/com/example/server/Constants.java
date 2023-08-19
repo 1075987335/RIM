@@ -1,4 +1,4 @@
-package server;
+package com.example.server;
 
 public class Constants {
     public static final String LEAF_SEGMENT_ENABLE = "leaf.segment.enable";

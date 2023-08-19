@@ -38,10 +38,14 @@ public class InactiveHandler {
             if(userId != null){
                 log.warn("客户端[{}]心跳超时[{}]ms，需要关闭连接！",userId.getUID(),nowTime - lastReadTime);
             }
-            offline(userId);
-            UserChannelFactory.remove(ctx.channel());
-            ctx.channel().close();
-            log.info("连接已关闭！");
+            if(userId != null){
+                offline(userId);
+                UserChannelFactory.remove(ctx.channel());
+                ctx.channel().close();
+                log.info("连接已关闭！");
+            }
+            else
+                log.info("userId为null，无法判断存活状态");
         }
         else{
             log.info("客户端未超时");

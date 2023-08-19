@@ -1,4 +1,4 @@
-package server.model;
+package com.example.server.model;
 
 public class SegmentBufferView {
     private String key;

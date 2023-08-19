@@ -27,7 +27,8 @@ public class ZKChangeListener implements IZkChildListener {
     public void handleChildChange(String s, List<String> list) {
         //重新缓存缓存数据，加一个粒度很大的锁
         synchronized (Cache.class){
-            cache.put(s, zkClient.getChildren(zkConfig.getZkRoot()));
+            List<String> children = zkClient.getChildren(zkConfig.getZkRoot());
+            cache.put(s, children);
             log.info("更新本地缓存成功！");
         }
         log.info("监听到zookeeper变化！path：{}, changes：{}", s, list);

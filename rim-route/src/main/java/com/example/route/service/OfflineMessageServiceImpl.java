@@ -3,14 +3,13 @@ package com.example.route.service;
 import com.example.MessageSendService;
 import com.example.OfflineMessageService;
 import com.example.client.request.SendMessageVo;
-import com.example.route.utils.DubboUtil;
 import com.example.route.utils.ConvertDubboPOJO;
 import com.example.route.utils.ConvertToSendMessageVo;
+import com.example.route.utils.DubboUtil;
 import com.example.storeapi.OfflineMessageSend;
 import com.example.storeapi.vo.OfflineRequestVo;
 import com.example.storeapi.vo.OfflineResponseVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class OfflineMessageServiceImpl implements OfflineMessageService {
 
-    @DubboReference
-    OfflineMessageSend offlineMessageSend;
-
     @Autowired
     BeforeSendService beforeSendService;
 
@@ -39,7 +35,7 @@ public class OfflineMessageServiceImpl implements OfflineMessageService {
     @Override
     public void sendOfflineMessage(OfflineRequestVo offlineReqVO) {
 
-        Object[] parameters=new Object[]{offlineReqVO};
+        Object[] parameters = new Object[]{offlineReqVO};
         List result = (List)DubboUtil.getDubboService(OfflineMessageSend.class,"localhost", 1503,"getOfflineMessage", parameters);
         if (result.size() > 0) {
             //转换成需求的类型

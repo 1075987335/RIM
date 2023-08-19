@@ -7,22 +7,30 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * Function:
- *
- * @author crossoverJie
- * Date: 2019-02-27 00:33
- * @since JDK 1.8
- */
 @Component
 public class ConsistentHashHandle implements RouteHandle {
 
     @Autowired
     private AbstractConsistentHash hash;
 
+    private Object LOCK = new Object();
+
     @Override
     public String routeServer(List<String> values, String key) {
-        hash.clear();
-        return hash.process(values, key);
+        String process;
+        synchronized (LOCK) {
+            hash.clear();
+            process = hash.process(values, key);
+        }
+        return process;
+    }
+
+    /**
+     * 初始化哈希环
+     * @param values
+     */
+    @Override
+    public void init(List<String> values) {
+        hash.init(values);
     }
 }

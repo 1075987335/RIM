@@ -32,10 +32,11 @@ public class DubboUtil {
         application.setName("dubbo");
 
         //获取服务
-        ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig();
+        ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setApplication(application);
         referenceConfig.setInterface(clazz);
         referenceConfig.setUrl(dubboUrl);
+        referenceConfig.setGeneric("true");
         //超时时间30s
         referenceConfig.setTimeout(30 * 1000);
         //仅仅调用一次

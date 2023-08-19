@@ -26,9 +26,9 @@ public class TestMP {
 
     @Test
     public void testStore(){
-        redisUtil.setGroupMember(1, 1);
-        redisUtil.setGroupMember(1, 2);
-        redisUtil.setGroupMember(1, 3);
+        for(int i=1;i<=200;i++){
+            redisUtil.setGroupMember(1, i);
+        }
     }
 
 
