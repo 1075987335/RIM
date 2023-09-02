@@ -26,7 +26,7 @@ public class P2PAckJob extends RingBufferWheel.Task {
     MessageSendService messageSendService;
 
 
-    public P2PAckJob(long messageId, int count){
+    public P2PAckJob(long messageId, int count) {
         this.messageId = messageId;
         this.count = count;
         index = 1;
@@ -40,7 +40,7 @@ public class P2PAckJob extends RingBufferWheel.Task {
         if (index < count) {
             index++;
             IM_Message message = unprocessedRequests.get(messageId);
-            if(message == null){
+            if (message == null) {
                 log.info("消息处理成功！重传结束！");
                 return;
             }
@@ -48,8 +48,7 @@ public class P2PAckJob extends RingBufferWheel.Task {
             ringBufferWheel.addTask(this);
             SendMessageVo sendMessageVo = ConvertToSendMessageVo.parse(message);
             messageSendService.sendRetryMessageToServer(sendMessageVo);
-        }
-        else{
+        } else {
             //如果重发失败，将消息从ACKLIST里面去除
             log.error("重发失败，请重新连接服务器！离线消息存储中...");
             IM_Message message = unprocessedRequests.get(messageId);

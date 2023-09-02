@@ -38,16 +38,17 @@ public class P2PMsgCommand implements InnerCommand {
 
     @Value("${ringbufferwheel.delay-time}")
     int delay_time;
+
     @Override
     public void process(String msg) {
-        if(msg.split(" ").length<=2){
+        if (msg.split(" ").length <= 2) {
             log.info("incorrect command, :p2p [userID] [msg]");
             return;
         }
-        String[] totalMsg=msg.split(" ");
+        String[] totalMsg = msg.split(" ");
         long id = getIdService.getNextId("key");
         SendMessageVo parse = ConvertToSendMessageVo.convert(totalMsg, userInfo, id, Constants.CommandType.P2P_MSG);
-        if(parse != null){
+        if (parse != null) {
             //加入acklist
             unprocessedRequests.put(parse.getMID(), parse);
 

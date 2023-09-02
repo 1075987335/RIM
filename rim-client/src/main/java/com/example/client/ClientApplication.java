@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @SpringBootApplication
 @EnableDubbo
-public class ClientApplication{
+public class ClientApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ClientApplication.class, args);

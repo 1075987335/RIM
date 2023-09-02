@@ -4,11 +4,11 @@ import com.example.client.util.SpringBeanFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RemoveReceivedJob implements Runnable{
+public class RemoveReceivedJob implements Runnable {
 
     ReceivedMessage receivedMessage;
 
-    public RemoveReceivedJob(){
+    public RemoveReceivedJob() {
         receivedMessage = SpringBeanFactory.getBean(ReceivedMessage.class);
     }
 

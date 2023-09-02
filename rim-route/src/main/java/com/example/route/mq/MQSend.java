@@ -22,16 +22,15 @@ public class MQSend {
     @Autowired
     KryoSerializer kryoSerializer;
 
-    public void sendMessage(IM_Message msg, boolean isOffline){
+    public void sendMessage(IM_Message msg, boolean isOffline) {
         log.info("即将发送mq消息:{}", msg);
         byte[] bytes = kryoSerializer.serialize(msg);
         String id;
         String routingKey;
-        if(isOffline){
+        if (isOffline) {
             id = "Off:" + msg.getHeader().getMID();
             routingKey = Constants.RabbitmqConstants.P2POfflineMessage;
-        }
-        else{
+        } else {
             id = idGenerator(msg);
             routingKey = routingKeyGet(msg);
         }
@@ -40,7 +39,7 @@ public class MQSend {
         rabbitTemplate.convertAndSend(Constants.RabbitmqConstants.Routing, routingKey, bytes, correlationData);
     }
 
-    public String idGenerator(IM_Message message){
+    public String idGenerator(IM_Message message) {
         Header header = message.getHeader();
         long uid = header.getUID();
         long mid = header.getMID();
@@ -48,20 +47,20 @@ public class MQSend {
         byte type = header.getType();
         long gid = header.getGID();
         String id = "";
-        switch (type){
-            case Constants.CommandType.P2P_MSG:{
+        switch (type) {
+            case Constants.CommandType.P2P_MSG: {
                 id = "P2P:" + mid + ":" + uid;
                 break;
             }
-            case Constants.CommandType.GROUP_MSG:{
+            case Constants.CommandType.GROUP_MSG: {
                 id = "Group:" + mid + ":" + uid;
                 break;
             }
-            case Constants.CommandType.P2P_ACK:{
+            case Constants.CommandType.P2P_ACK: {
                 id = "P2PAck:" + mid;
                 break;
             }
-            case Constants.CommandType.GROUP_ACK:{
+            case Constants.CommandType.GROUP_ACK: {
                 id = "GroupAck:" + mid + ":" + tid + ":" + gid;
                 break;
             }
@@ -71,23 +70,23 @@ public class MQSend {
         return id;
     }
 
-    public String routingKeyGet(IM_Message message){
+    public String routingKeyGet(IM_Message message) {
         byte type = message.getHeader().getType();
         String routingKey = "";
-        switch (type){
-            case Constants.CommandType.P2P_MSG:{
+        switch (type) {
+            case Constants.CommandType.P2P_MSG: {
                 routingKey = Constants.RabbitmqConstants.P2PMessage;
                 break;
             }
-            case Constants.CommandType.GROUP_MSG:{
+            case Constants.CommandType.GROUP_MSG: {
                 routingKey = Constants.RabbitmqConstants.GroupMessage;
                 break;
             }
-            case Constants.CommandType.P2P_ACK:{
+            case Constants.CommandType.P2P_ACK: {
                 routingKey = Constants.RabbitmqConstants.P2PACK;
                 break;
             }
-            case Constants.CommandType.GROUP_ACK:{
+            case Constants.CommandType.GROUP_ACK: {
                 routingKey = Constants.RabbitmqConstants.GroupACK;
                 break;
             }

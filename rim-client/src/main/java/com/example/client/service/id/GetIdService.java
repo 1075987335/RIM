@@ -10,7 +10,7 @@ public class GetIdService {
     @DubboReference
     GetIDService getIDService;
 
-    public long getNextId(String key){
+    public long getNextId(String key) {
         return getIDService.getId(key).getId();
     }
 }

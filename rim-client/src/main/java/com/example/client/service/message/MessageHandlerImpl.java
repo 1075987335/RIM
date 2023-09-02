@@ -11,9 +11,10 @@ public class MessageHandlerImpl implements MessageHandler {
 
     @Autowired
     CommandFactory commandFactory;
+
     @Override
     public void handler(String msg) {
-        InnerCommand instance=commandFactory.getInstance(msg);
+        InnerCommand instance = commandFactory.getInstance(msg);
         if (instance != null) {
             instance.process(msg);
         }

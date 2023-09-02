@@ -34,7 +34,7 @@ public class P2POfflineSendStrategy implements OfflineMessageSendStrategy {
 
         //单聊查看用户登陆状态
         if (userService.getUserLoginState(sendMessageVo.getTID())) {
-            log.info("用户{}已离线，无法发送离线消息...",sendMessageVo.getTID());
+            log.info("用户{}已离线，无法发送离线消息...", sendMessageVo.getTID());
             return;
         }
 

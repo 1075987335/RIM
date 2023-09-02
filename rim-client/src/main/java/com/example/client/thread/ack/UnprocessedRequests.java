@@ -13,28 +13,28 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UnprocessedRequests {
     private Map<Long, SendMessageVo> NORMAL_MESSAGE_UNPROCESS_MAP = new ConcurrentHashMap<>();
 
-    public void put(long messageId, SendMessageVo message){
+    public void put(long messageId, SendMessageVo message) {
         NORMAL_MESSAGE_UNPROCESS_MAP.put(messageId, message);
     }
 
-    public void finish(long messageId){
+    public void finish(long messageId) {
         SendMessageVo message = NORMAL_MESSAGE_UNPROCESS_MAP.get(messageId);
-        if(message != null){
+        if (message != null) {
             NORMAL_MESSAGE_UNPROCESS_MAP.remove(messageId);
         }
         log.info("消息确认完成，移出AckList...");
     }
 
-    public SendMessageVo get(long messageId){
+    public SendMessageVo get(long messageId) {
         SendMessageVo message = NORMAL_MESSAGE_UNPROCESS_MAP.get(messageId);
-        if(message == null){
+        if (message == null) {
             log.info("消息为空！");
             return null;
         }
         return message;
     }
 
-    public int size(){
+    public int size() {
         return NORMAL_MESSAGE_UNPROCESS_MAP.size();
     }
 }

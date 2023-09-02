@@ -4,18 +4,18 @@ import com.example.server.config.ServerConfig;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RegistryZK implements Runnable{
+public class RegistryZK implements Runnable {
 
-    private ZKit zKit;
+    private final ZKit zKit;
 
-    private ServerConfig config;
+    private final ServerConfig config;
 
-    private String ip;
+    private final String ip;
 
     public RegistryZK(String ip, ZKit zKit, ServerConfig config) {
         this.ip = ip;
         this.config = config;
-        this.zKit =zKit;
+        this.zKit = zKit;
     }
 
     @Override
@@ -23,10 +23,10 @@ public class RegistryZK implements Runnable{
         //创建父节点
         zKit.createRootNode();
         //是否要将自己注册到 ZK
-        if (config.isZkSwith()){
-            String path = config.getZkRoot() +"/"+ ip + ":" +config.getServerPort() + ":" + config.getHttpPort() + ":" + config.getDubboPort();
+        if (config.isZkSwith()) {
+            String path = config.getZkRoot() + "/" + ip + ":" + config.getServerPort() + ":" + config.getHttpPort() + ":" + config.getDubboPort();
             zKit.createNode(path);
-            log.info("Registry zookeeper success, msg=["+path+"]");
+            log.info("Registry zookeeper success, msg=[" + path + "]");
         }
     }
 }

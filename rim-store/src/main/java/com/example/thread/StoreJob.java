@@ -9,7 +9,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class StoreJob implements Runnable{
+public class StoreJob implements Runnable {
 
     Channel channel;
 
@@ -21,33 +21,30 @@ public class StoreJob implements Runnable{
 
     boolean isOffline;
 
-    public StoreJob(IM_Message message, Channel channel, long deliveryTag, boolean isOffline){
+    public StoreJob(IM_Message message, Channel channel, long deliveryTag, boolean isOffline) {
         service = SpringBeanFactory.getBean(StoreMessageService.class);
         this.channel = channel;
         this.deliveryTag = deliveryTag;
         this.message = message;
         this.isOffline = isOffline;
     }
+
     @SneakyThrows
     @Override
     public void run() {
         byte type = message.getHeader().getType();
         try {
-            if(isOffline == true && type == Constants.CommandType.P2P_MSG){
+            if (isOffline && type == Constants.CommandType.P2P_MSG) {
                 log.info("执行了Offline操作");
                 service.doStoreP2POfflineMessage(message);
-            }
-            else if(type == Constants.CommandType.P2P_MSG){
+            } else if (type == Constants.CommandType.P2P_MSG) {
                 log.info("执行了P2P操作");
                 service.doStoreP2PMessage(message);
-            }
-            else if(type == Constants.CommandType.P2P_ACK){
+            } else if (type == Constants.CommandType.P2P_ACK) {
                 service.doStoreP2PAck(message);
-            }
-            else if(type == Constants.CommandType.GROUP_MSG){
+            } else if (type == Constants.CommandType.GROUP_MSG) {
                 service.doStoreGroupMessage(message);
-            }
-            else if(type == Constants.CommandType.GROUP_ACK){
+            } else if (type == Constants.CommandType.GROUP_ACK) {
                 service.doStoreGroupACK(message);
             }
             channel.basicAck(deliveryTag, false);

@@ -17,6 +17,6 @@ public class RouteInfo {
         this.ip = ip;
         this.ServerPort = cimServerPort;
         this.httpPort = httpPort;
-        this.dubboPort=dubboPort;
+        this.dubboPort = dubboPort;
     }
 }

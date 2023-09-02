@@ -12,7 +12,7 @@ public class SendOfflineMessage {
     @DubboReference
     OfflineMessageService offlineMessageService;
 
-    public void send(IM_Message message){
+    public void send(IM_Message message) {
         OfflineRequestVo offlineRequestVo = new OfflineRequestVo();
         offlineRequestVo.setUID(message.getHeader().getUID());
         offlineMessageService.sendOfflineMessage(offlineRequestVo);

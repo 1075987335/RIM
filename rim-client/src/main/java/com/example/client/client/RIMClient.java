@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j(topic = "RIMClient")
 public class RIMClient {
-    private EventLoopGroup group;
 
     private ServerInfo serverInfo;
 
@@ -51,7 +50,7 @@ public class RIMClient {
 
     Runnable task = null;
 
-    public void start(){
+    public void start() {
         LoginVO loginVO = new LoginVO();
         loginVO.setUID(userInfo.getUserID());
         //登陆操作
@@ -70,24 +69,22 @@ public class RIMClient {
     /**
      * 开启netty服务
      */
-    public void startClient(){
-        group = new NioEventLoopGroup(0,new DefaultThreadFactory("work"));
+    public void startClient() {
+        EventLoopGroup group = new NioEventLoopGroup(0, new DefaultThreadFactory("work"));
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .handler(new RIMClientHandlerInitializer());
         ChannelFuture future = null;
-        try{
-            future = bootstrap.connect(new InetSocketAddress(serverInfo.getIp(),serverInfo.getServerPort())).sync();
-        }
-        catch (Exception e){
+        try {
+            future = bootstrap.connect(new InetSocketAddress(serverInfo.getIp(), serverInfo.getServerPort())).sync();
+        } catch (Exception e) {
             log.error("服务器连接失败！");
         }
 
         if (future.channel() != null) {
             channelFactory.setChannel(future.channel());
-        }
-        else{
+        } else {
             log.error("服务器连接失败，channel为null");
         }
     }
@@ -95,9 +92,9 @@ public class RIMClient {
     /**
      * 重连
      */
-    public boolean reConnect(){
+    public boolean reConnect() {
         Channel channel = channelFactory.getChannel();
-        if(channel != null && channel.isActive()){
+        if (channel != null && channel.isActive()) {
             log.info("当前通道活跃，无需重连！");
             return true;
         }
@@ -120,7 +117,7 @@ public class RIMClient {
     /**
      * 关闭通道
      */
-    public void close(){
+    public void close() {
         Channel channel = channelFactory.getChannel();
         if (channel != null) {
             channel.close();

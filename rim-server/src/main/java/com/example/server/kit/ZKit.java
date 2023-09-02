@@ -4,6 +4,7 @@ import com.example.server.config.ServerConfig;
 import org.I0Itec.zkclient.ZkClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 @Component
 public class ZKit {
 
@@ -17,10 +18,10 @@ public class ZKit {
     /**
      * 创建父级节点
      */
-    public void createRootNode(){
+    public void createRootNode() {
         createZkClient();
         boolean exists = zkClient.exists(appConfiguration.getZkRoot());
-        if (exists){
+        if (exists) {
             return;
         }
         //创建 root
@@ -39,16 +40,17 @@ public class ZKit {
 
     /**
      * 删除指定节点
+     *
      * @param path
      * @return
      */
-    public boolean removeNode(String path){
+    public boolean removeNode(String path) {
         return zkClient.delete(path);
     }
 
-    public void createZkClient(){
-        if(zkClient==null)
-            zkClient=new ZkClient(appConfiguration.getZkAddr(),Integer.MAX_VALUE);
+    public void createZkClient() {
+        if (zkClient == null)
+            zkClient = new ZkClient(appConfiguration.getZkAddr(), Integer.MAX_VALUE);
     }
 
 }

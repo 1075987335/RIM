@@ -7,7 +7,7 @@ import com.example.common.proto.IM_Message;
 
 public class ConvertToIM_Message {
 
-    public static IM_Message convert(SendMessageVo sendMessageVo, long TID){
+    public static IM_Message convert(SendMessageVo sendMessageVo, long TID) {
         IM_Message message = new IM_Message();
         Header header = new Header();
         message.setBody(sendMessageVo.getData());
@@ -20,7 +20,7 @@ public class ConvertToIM_Message {
         return message;
     }
 
-    public static IM_Message convert(AckVo ackVo){
+    public static IM_Message convert(AckVo ackVo) {
         IM_Message message = new IM_Message();
         Header header = new Header();
         header.setType(ackVo.getType());

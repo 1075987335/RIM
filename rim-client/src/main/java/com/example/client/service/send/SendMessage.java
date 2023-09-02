@@ -30,18 +30,20 @@ public class SendMessage {
 
     /**
      * 发送消息，包括单聊和群聊消息
+     *
      * @param sendMessageVo
      */
-    public void send(SendMessageVo sendMessageVo){
+    public void send(SendMessageVo sendMessageVo) {
         log.info("即将发送消息：{}", sendMessageVo);
         messageSendService.sendMessageToServer(sendMessageVo);
     }
 
     /**
      * 向路由层以及存储服务发送ack
+     *
      * @param ackVo
      */
-    public void sendACK(AckVo ackVo){
+    public void sendACK(AckVo ackVo) {
         log.info("即将发送ack消息：{}", ackVo);
         messageSendService.sendAckToStoreService(ackVo);
     }
@@ -49,29 +51,26 @@ public class SendMessage {
 
     /**
      * 直接向服务器发送消息，包括login登陆包和心跳包
+     *
      * @param msg
      */
-    public void send(IM_Message msg){
-        Channel channel=channelFactory.getChannel();
-        if(channel.isActive()){
+    public void send(IM_Message msg) {
+        Channel channel = channelFactory.getChannel();
+        if (channel.isActive()) {
             ChannelFuture future = channel.writeAndFlush(msg);
-            future.addListener((ChannelFutureListener) channelFuture ->{
+            future.addListener((ChannelFutureListener) channelFuture -> {
                 byte type = msg.getHeader().getType();
-                if(type == Constants.CommandType.PING && channelFuture.isSuccess()){
+                if (type == Constants.CommandType.PING && channelFuture.isSuccess()) {
                     log.info("心跳ping发送成功！");
-                }
-                else if(type == Constants.CommandType.PING && !channelFuture.isSuccess()){
+                } else if (type == Constants.CommandType.PING && !channelFuture.isSuccess()) {
                     log.error("心跳ping发送失败！");
-                }
-                else if(type == Constants.CommandType.LOGIN && channelFuture.isSuccess()){
+                } else if (type == Constants.CommandType.LOGIN && channelFuture.isSuccess()) {
                     log.info("登陆消息发送成功！");
-                }
-                else if(type == Constants.CommandType.LOGIN && channelFuture.isSuccess()){
+                } else if (type == Constants.CommandType.LOGIN && channelFuture.isSuccess()) {
                     log.error("登陆消息发送失败！");
                 }
-                    });
-        }
-        else{
+            });
+        } else {
             log.error("通道失活，消息发送失败！");
         }
     }

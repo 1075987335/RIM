@@ -48,7 +48,7 @@ public class P2PSendStrategy implements MessageSendStrategy {
 
         //单聊查看用户登陆状态
         if (sendMessageVo.getType() == Constants.CommandType.P2P_MSG && !userService.getUserLoginState(sendMessageVo.getTID())) {
-            log.info("用户{}已离线！对消息进行离线存储...",sendMessageVo.getTID());
+            log.info("用户{}已离线！对消息进行离线存储...", sendMessageVo.getTID());
             //保存离线消息到redis中
             mqSend.sendMessage(message, true);
             //这个是为了给客户端发送ack消息，并且保存在mysql中进行持久化存储

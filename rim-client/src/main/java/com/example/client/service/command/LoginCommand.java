@@ -19,7 +19,7 @@ public class LoginCommand implements InnerCommand {
 
     @Override
     public void process(String msg) {
-        if(msg.split(" ").length != 2){
+        if (msg.split(" ").length != 2) {
             log.info("incorrect command, :login [userID]");
             return;
         }

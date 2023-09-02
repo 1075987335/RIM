@@ -12,6 +12,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+
 @Slf4j
 public class MessageDecode extends ByteToMessageDecoder {
 
@@ -21,11 +22,11 @@ public class MessageDecode extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> list) throws Exception {
-        if(in.readableBytes() >= BASE_LENGTH){
+        if (in.readableBytes() >= BASE_LENGTH) {
 
             //记录消息包开始的index
             int beginIndex = 0;
-            while(true){
+            while (true) {
                 //获取包头开始的index
                 beginIndex = in.readerIndex();
 
@@ -33,7 +34,7 @@ public class MessageDecode extends ByteToMessageDecoder {
                 in.markReaderIndex();
 
                 //读到协议的开始标志就结束while循环
-                if(in.readInt() == Constants.Code.MESSAGE_SYMBLE){
+                if (in.readInt() == Constants.Code.MESSAGE_SYMBLE) {
                     break;
                 }
 
@@ -42,7 +43,7 @@ public class MessageDecode extends ByteToMessageDecoder {
                 in.readByte();
 
                 //如果剩余的字节长度比基本长度小，就退出，等待后续的数据到达
-                if(in.readableBytes() < BASE_LENGTH){
+                if (in.readableBytes() < BASE_LENGTH) {
                     return;
                 }
             }
@@ -50,7 +51,7 @@ public class MessageDecode extends ByteToMessageDecoder {
             //获取消息的总长度
             int total_length = in.readInt();
             //看数据是不是都到齐了
-            if(in.readableBytes() < total_length){
+            if (in.readableBytes() < total_length) {
                 in.readerIndex(beginIndex);
                 return;
             }
@@ -62,23 +63,20 @@ public class MessageDecode extends ByteToMessageDecoder {
             Header header = null;
             Object body = null;
 
-            if(type == Constants.CommandType.P2P_ACK || type == Constants.CommandType.GROUP_ACK){
+            if (type == Constants.CommandType.P2P_ACK || type == Constants.CommandType.GROUP_ACK) {
                 long msgId = in.readLong();
                 header = new Header();
                 header.setType(type);
                 header.setMID(msgId);
-            }
-            else if(type == Constants.CommandType.PING || type == Constants.CommandType.PONG){
+            } else if (type == Constants.CommandType.PING || type == Constants.CommandType.PONG) {
                 header = new Header();
                 header.setType(type);
-            }
-            else if(type == Constants.CommandType.LOGIN){
+            } else if (type == Constants.CommandType.LOGIN) {
                 long userId = in.readLong();
                 header = new Header();
                 header.setType(type);
                 header.setUID(userId);
-            }
-            else if(type == Constants.CommandType.P2P_MSG || type == Constants.CommandType.GROUP_MSG){
+            } else if (type == Constants.CommandType.P2P_MSG || type == Constants.CommandType.GROUP_MSG) {
                 int header_length = in.readInt();
                 int body_length = in.readInt();
                 byte message_type = in.readByte();
@@ -87,7 +85,7 @@ public class MessageDecode extends ByteToMessageDecoder {
                 in.readBytes(headers);
                 in.readBytes(bodys);
 
-                if(message_type == MessageType.DATA_TYPE_KRYO.getCode()){
+                if (message_type == MessageType.DATA_TYPE_KRYO.getCode()) {
                     header = serializer.deserialize(headers, Header.class);
                     body = serializer.deserialize(bodys, String.class);
                 }

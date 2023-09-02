@@ -82,7 +82,7 @@ public class Constants {
 
     }
 
-    public static class CommandType{
+    public static class CommandType {
         public static final byte LOGIN = 1;
 
         public static final byte P2P_MSG = 2;
@@ -98,11 +98,11 @@ public class Constants {
         public static final byte GROUP_ACK = 7;
     }
 
-    public static class Code{
+    public static class Code {
         public static int MESSAGE_SYMBLE = Integer.MIN_VALUE;
     }
 
-    public static class Cache{
+    public static class Cache {
         public static String ZK_CACHE = "zookeeperCache";
     }
 

@@ -13,8 +13,9 @@ public class RedisConfig {
 
     @Autowired
     RedisTemplate redisTemplate;
+
     @Bean
-    public RedisUtil redisUtil(){
+    public RedisUtil redisUtil() {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
         //key序列化方式
         redisTemplate.setKeySerializer(redisSerializer);

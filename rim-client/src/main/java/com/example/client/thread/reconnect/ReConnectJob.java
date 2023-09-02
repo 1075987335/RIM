@@ -15,7 +15,7 @@ public class ReConnectJob implements Runnable {
 
     int index;
 
-    public ReConnectJob(int count){
+    public ReConnectJob(int count) {
         client = SpringBeanFactory.getBean(RIMClient.class);
         reConnectManager = SpringBeanFactory.getBean(ReConnectManager.class);
         this.count = count;
@@ -25,14 +25,13 @@ public class ReConnectJob implements Runnable {
     public void run() {
         index++;
         boolean isSuccess = false;
-        if(index <= count){
-            log.info("执行第{}次重连任务...",index);
+        if (index <= count) {
+            log.info("执行第{}次重连任务...", index);
             isSuccess = client.reConnect();
-        }
-        else{
+        } else {
             reConnectManager.closePool();
         }
-        if(isSuccess == true){
+        if (isSuccess == true) {
             log.info("重连成功！");
         }
     }

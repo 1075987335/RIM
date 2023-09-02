@@ -31,7 +31,7 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
         Header header = message.getHeader();
 
         //保证消息不会发给自己
-        if(header.getUID() != userInfo.getUserID()){
+        if (header.getUID() != userInfo.getUserID()) {
             log.info("\n" +
                             "--------------------------------------------\n" +
                             "来自群组 [{}] 用户 [{}] : {}\n" +
@@ -45,8 +45,7 @@ public class GroupReceivedStrategy implements MessageReceivedStrategy {
             AckVo ackVo = ConvertToAckVo.convert(message, Constants.CommandType.GROUP_ACK);
             //发送接收ack
             sendMessage.sendACK(ackVo);
-        }
-        else{
+        } else {
             log.info("幂等性处理...");
         }
     }

@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @Slf4j(topic = "QueryMessageService")
-public class QueryMessageService{
+public class QueryMessageService {
     @Autowired
     P2PHistoryMapper p2pHistoryMapper;
 
@@ -33,6 +33,7 @@ public class QueryMessageService{
 
     /**
      * 从群聊和私聊中获取最新消息ID以及目标等信息
+     *
      * @param UID
      * @return
      */

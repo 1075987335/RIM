@@ -8,15 +8,15 @@ import java.util.List;
 
 public class ConvertDubboPOJO {
 
-    public static List<OfflineResponseVo> parseToOfflineResponseVo(List<HashMap<String, Object>> list){
+    public static List<OfflineResponseVo> parseToOfflineResponseVo(List<HashMap<String, Object>> list) {
         List<OfflineResponseVo> result = new ArrayList<>();
-        for(HashMap map : list){
+        for (HashMap map : list) {
             OfflineResponseVo vo = new OfflineResponseVo();
-            vo.setTID((long)map.get("tID"));
-            vo.setUID((long)map.get("uID"));
-            vo.setMID((long)map.get("mID"));
+            vo.setTID((long) map.get("tID"));
+            vo.setUID((long) map.get("uID"));
+            vo.setMID((long) map.get("mID"));
             vo.setData(map.get("data"));
-            vo.setGID((long)map.get("gID"));
+            vo.setGID((long) map.get("gID"));
             vo.setType(Byte.parseByte(map.get("type").toString()));
             result.add(vo);
         }

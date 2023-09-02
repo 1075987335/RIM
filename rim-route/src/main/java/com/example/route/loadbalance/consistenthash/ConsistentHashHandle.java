@@ -13,7 +13,7 @@ public class ConsistentHashHandle implements RouteHandle {
     @Autowired
     private AbstractConsistentHash hash;
 
-    private Object LOCK = new Object();
+    private final Object LOCK = new Object();
 
     @Override
     public String routeServer(List<String> values, String key) {
@@ -27,6 +27,7 @@ public class ConsistentHashHandle implements RouteHandle {
 
     /**
      * 初始化哈希环
+     *
      * @param values
      */
     @Override

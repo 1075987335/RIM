@@ -10,28 +10,29 @@ public class NettyAttrUtil {
 
     /**
      * 更新时间
+     *
      * @param channel
      * @param time
      */
-    public static void updateReadTime(Channel channel, Long time){
+    public static void updateReadTime(Channel channel, Long time) {
         channel.attr(READ_TIME).set(time);
     }
 
 
     /**
      * 得到上次读的时间
+     *
      * @param channel
      * @return
      */
-    public static Long getReadTime(Channel channel){
+    public static Long getReadTime(Channel channel) {
         Long time = channel.attr(READ_TIME).get();
 
-        if(time == null){
+        if (time == null) {
             return null;
         }
         return time;
     }
-
 
 
 }

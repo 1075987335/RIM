@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class LocalCacheConfig {
 
     @Bean("cache")
-    public Cache<String, Object> cache(){
+    public Cache<String, Object> cache() {
         return Caffeine.newBuilder()
                 // 设置最后一次写入或访问后经过固定时间过期
                 .expireAfterWrite(60, TimeUnit.SECONDS)

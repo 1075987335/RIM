@@ -26,6 +26,7 @@ public class OfflineMessageSendImpl implements OfflineMessageSend {
 
     @Autowired
     QueryMessageService queryMessageService;
+
     @Override
     public List<OfflineResponseVo> getOfflineMessage(OfflineRequestVo offlineRequestVo) {
 
@@ -33,10 +34,10 @@ public class OfflineMessageSendImpl implements OfflineMessageSend {
         List<QueryResponseVo> latestMessageId = queryMessageService.getLatestMessageId(offlineRequestVo.getUID());
 
         List<OfflineResponseVo> list = new ArrayList<>();
-        for(QueryResponseVo v : latestMessageId){
-            if(v.getType() == Constants.CommandType.P2P_MSG){
+        for (QueryResponseVo v : latestMessageId) {
+            if (v.getType() == Constants.CommandType.P2P_MSG) {
                 Set<String> p2PMessage = redisUtil.getP2PMessage(v.getUID(), v.getTID(), v.getMID());
-                for(String str : p2PMessage){
+                for (String str : p2PMessage) {
                     OfflineResponseVo parse = ConvertToOfflineResponseVo.parse(str);
                     parse.setType(Constants.CommandType.P2P_MSG);
                     parse.setUID(v.getUID());
@@ -44,9 +45,9 @@ public class OfflineMessageSendImpl implements OfflineMessageSend {
                     list.add(parse);
                 }
             }
-            if(v.getType() == Constants.CommandType.GROUP_MSG){
+            if (v.getType() == Constants.CommandType.GROUP_MSG) {
                 Set<String> groupMessage = redisUtil.getGroupMessage(v.getGID(), v.getMID());
-                for(String str : groupMessage){
+                for (String str : groupMessage) {
                     OfflineResponseVo parse = ConvertToOfflineResponseVo.parse(str);
                     parse.setType(Constants.CommandType.GROUP_MSG);
                     parse.setGID(v.getGID());

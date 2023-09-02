@@ -24,33 +24,34 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
 
     /**
      * 处理断线重连逻辑
+     *
      * @param ctx
      * @throws Exception
      */
     @Override
-    public void channelInactive(ChannelHandlerContext ctx){
-        if(clientState == null){
+    public void channelInactive(ChannelHandlerContext ctx) {
+        if (clientState == null) {
             clientState = SpringBeanFactory.getBean(ClientState.class);
         }
-        if(clientState.isNormalClose() == true)
+        if (clientState.isNormalClose() == true)
             return;
         log.info("服务器断开，尝试重连！");
-        if(reConnectManager == null)
+        if (reConnectManager == null)
             reConnectManager = SpringBeanFactory.getBean(ReConnectManager.class);
         reConnectManager.reConnect(3);
         ctx.fireChannelActive();
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt){
-        if(evt instanceof IdleStateEvent){
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
+        if (evt instanceof IdleStateEvent) {
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
-            if(idleStateEvent.state() == IdleState.WRITER_IDLE){
+            if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
                 IM_Message heartBeat = new IM_Message();
                 Header header = new Header();
                 header.setType(Constants.CommandType.PING);
                 heartBeat.setHeader(header);
-                sendMessage = SpringBeanFactory.getBean("SendMessage",SendMessage.class);
+                sendMessage = SpringBeanFactory.getBean("SendMessage", SendMessage.class);
                 sendMessage.send(heartBeat);
             }
         }

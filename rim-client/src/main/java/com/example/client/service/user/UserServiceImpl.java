@@ -30,10 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ServerInfo login(LoginVO loginVO) {
-        try{
+        try {
             return routeUserService.Login(loginVO);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             log.error("用户{}登陆失败！", loginVO.getUID());
         }
         return null;
@@ -41,8 +40,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginServer() {
-        IM_Message IMMessage =new IM_Message();
-        Header header=new Header();
+        IM_Message IMMessage = new IM_Message();
+        Header header = new Header();
         header.setType(Constants.CommandType.LOGIN);
         header.setUID(userInfo.getUserID());
         IMMessage.setHeader(header);
@@ -55,9 +54,9 @@ public class UserServiceImpl implements UserService {
         offlineReqVO.setUID(userInfo.getUserID());
         try {
             routeUserService.offLine(offlineReqVO);
-            log.info("用户{}离线成功",userInfo.getUserID());
+            log.info("用户{}离线成功", userInfo.getUserID());
         } catch (Exception e) {
-            log.error("用户{}离线失败！",userInfo.getUserID());
+            log.error("用户{}离线失败！", userInfo.getUserID());
             throw new RuntimeException(e);
         }
     }

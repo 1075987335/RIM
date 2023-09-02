@@ -27,7 +27,7 @@ public class MessageEncode extends MessageToByteEncoder<IM_Message> {
             int header_length = headers.length;
             int body_length = 0;
 
-            if(body != null){
+            if (body != null) {
                 bodys = serializer.serialize(body);
                 body_length = bodys.length;
             }
@@ -35,24 +35,21 @@ public class MessageEncode extends MessageToByteEncoder<IM_Message> {
             //写入消息标志位
             byteBuf.writeInt(Constants.Code.MESSAGE_SYMBLE);
 
-            if(type == Constants.CommandType.P2P_ACK || type == Constants.CommandType.GROUP_ACK){
+            if (type == Constants.CommandType.P2P_ACK || type == Constants.CommandType.GROUP_ACK) {
                 totalLength = 9;
                 byteBuf.writeInt(totalLength);
                 byteBuf.writeByte(type);
                 byteBuf.writeLong(header.getMID());
-            }
-            else if(type == Constants.CommandType.LOGIN){
+            } else if (type == Constants.CommandType.LOGIN) {
                 totalLength = 9;
                 byteBuf.writeInt(totalLength);
                 byteBuf.writeByte(type);
                 byteBuf.writeLong(header.getUID());
-            }
-            else if(type == Constants.CommandType.PING || type == Constants.CommandType.PONG){
+            } else if (type == Constants.CommandType.PING || type == Constants.CommandType.PONG) {
                 totalLength = 1;
                 byteBuf.writeInt(totalLength);
                 byteBuf.writeByte(type);
-            }
-            else if(type == Constants.CommandType.P2P_MSG || type == Constants.CommandType.GROUP_MSG){
+            } else if (type == Constants.CommandType.P2P_MSG || type == Constants.CommandType.GROUP_MSG) {
                 totalLength = header_length + body_length + 10;
                 byteBuf.writeInt(totalLength);
                 byteBuf.writeByte(type);

@@ -18,6 +18,7 @@ public class AckReceivedStrategy implements MessageReceivedStrategy {
 
     @Autowired
     RingBufferWheel outTimeJobExecutor;
+
     @Override
     public void handle(IM_Message message) {
         Header header = message.getHeader();

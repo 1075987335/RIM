@@ -12,14 +12,15 @@ public class NamedThreadFactory implements ThreadFactory {
 
     private final AtomicInteger threadNumber = new AtomicInteger(0);
 
-    public NamedThreadFactory(String prefix, boolean isDeamon){
+    public NamedThreadFactory(String prefix, boolean isDeamon) {
         this.prefix = prefix;
         this.isDeamon = isDeamon;
     }
+
     @Override
     public Thread newThread(Runnable r) {
         Thread thread = new Thread(null, r, prefix + threadNumber.incrementAndGet());
-        if(!thread.isDaemon() && isDeamon){
+        if (!thread.isDaemon() && isDeamon) {
             thread.setDaemon(true);
         }
         return thread;

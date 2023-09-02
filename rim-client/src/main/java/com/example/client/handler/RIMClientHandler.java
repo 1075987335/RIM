@@ -10,15 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @ChannelHandler.Sharable
 @Slf4j(topic = "RIMClientHandler")
-public class RIMClientHandler extends SimpleChannelInboundHandler{
+public class RIMClientHandler extends SimpleChannelInboundHandler {
 
     MessageReceivedContext context;
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg){
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
 
         IM_Message message = (IM_Message) msg;
-        if(context == null){
+        if (context == null) {
             context = SpringBeanFactory.getBean(MessageReceivedContext.class);
         }
         context.handle(message);

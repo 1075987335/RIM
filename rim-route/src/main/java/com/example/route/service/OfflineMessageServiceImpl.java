@@ -36,16 +36,16 @@ public class OfflineMessageServiceImpl implements OfflineMessageService {
     public void sendOfflineMessage(OfflineRequestVo offlineReqVO) {
 
         Object[] parameters = new Object[]{offlineReqVO};
-        List result = (List)DubboUtil.getDubboService(OfflineMessageSend.class,"localhost", 1503,"getOfflineMessage", parameters);
+        List result = (List) DubboUtil.getDubboService(OfflineMessageSend.class, "localhost", 1503, "getOfflineMessage", parameters);
         if (result.size() > 0) {
             //转换成需求的类型
             List<OfflineResponseVo> offlineMessage = ConvertDubboPOJO.parseToOfflineResponseVo(result);
             List<SendMessageVo> sendMessageVoList = new ArrayList<>();
-            for(OfflineResponseVo vo : offlineMessage){
+            for (OfflineResponseVo vo : offlineMessage) {
                 sendMessageVoList.add(ConvertToSendMessageVo.parse(vo));
             }
             log.info("即将发送离线消息：{}", sendMessageVoList);
-            for(SendMessageVo v : sendMessageVoList){
+            for (SendMessageVo v : sendMessageVoList) {
                 messageSendService.sendOfflineMessage(v);
             }
         }

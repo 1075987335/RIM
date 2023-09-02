@@ -13,7 +13,7 @@ public class UserService {
     @DubboReference
     RouteUserService userService;
 
-    public void userOffline(long UID){
+    public void userOffline(long UID) {
         OfflineReqVO offlineReqVO = new OfflineReqVO();
         offlineReqVO.setUID(UID);
         userService.offLine(offlineReqVO);

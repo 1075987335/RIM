@@ -16,7 +16,7 @@ public class P2PSendTestCommand implements InnerCommand {
     public void process(String msg) {
         String[] str = msg.split(" ");
         int count = Integer.parseInt(str[1]);
-        for(int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             String s = ":p2p 2 " + i;
             p2PMsgCommand.process(s);
         }

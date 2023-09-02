@@ -36,14 +36,15 @@ public class StoreMessageService {
 
     /**
      * 保存单聊消息，更新最新接收消息id
+     *
      * @param msg
      */
     @Transactional(rollbackFor = Exception.class)
-    public void doStoreP2PMessage(IM_Message msg){
-        P2PMessageEntity storemessage=new P2PMessageEntity();
-        Header header=msg.getHeader();
-        Object data=msg.getBody();
-        storemessage.setBody((String)data);
+    public void doStoreP2PMessage(IM_Message msg) {
+        P2PMessageEntity storemessage = new P2PMessageEntity();
+        Header header = msg.getHeader();
+        Object data = msg.getBody();
+        storemessage.setBody((String) data);
         storemessage.setMessageId(header.getMID());
         storemessage.setFromUser(header.getUID());
         storemessage.setToUser(header.getTID());
@@ -62,13 +63,14 @@ public class StoreMessageService {
 
     /**
      * 在redis中保存单聊离线消息
+     *
      * @param message
      */
     @Transactional(rollbackFor = Exception.class)
-    public void doStoreP2POfflineMessage(IM_Message message){
+    public void doStoreP2POfflineMessage(IM_Message message) {
         Header header = message.getHeader();
         try {
-            redisUtil.setP2PMessage(header.getUID(), header.getTID(), header.getMID(), (String)message.getBody());
+            redisUtil.setP2PMessage(header.getUID(), header.getTID(), header.getMID(), (String) message.getBody());
             log.info("单聊离线消息:[{}]成功保存在redis中", header.getMID());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -77,22 +79,23 @@ public class StoreMessageService {
 
     /**
      * 保存群聊消息，更新最新接收消息id
+     *
      * @param msg
      */
     @Transactional(rollbackFor = Exception.class)
-    public void doStoreGroupMessage(IM_Message msg){
-        GroupMessageEntity groupMessageEntity=new GroupMessageEntity();
-        Header header=msg.getHeader();
+    public void doStoreGroupMessage(IM_Message msg) {
+        GroupMessageEntity groupMessageEntity = new GroupMessageEntity();
+        Header header = msg.getHeader();
         groupMessageEntity.setGroupId(header.getGID());
         groupMessageEntity.setFromUser(header.getUID());
         groupMessageEntity.setMessageId(header.getMID());
-        groupMessageEntity.setBody((String)msg.getBody());
+        groupMessageEntity.setBody((String) msg.getBody());
         try {
 
             groupHistoryMapper.insert(groupMessageEntity);
             log.info("群聊消息Mysql持久化成功！");
 
-            redisUtil.setGroupMessage(header.getUID(), header.getGID(), header.getMID(), (String)msg.getBody());
+            redisUtil.setGroupMessage(header.getUID(), header.getGID(), header.getMID(), (String) msg.getBody());
             log.info("群聊消息Redis持久化成功！");
         } catch (Exception e) {
             log.info("群聊消息持久化失败！");
@@ -103,24 +106,24 @@ public class StoreMessageService {
      * 接收单聊ACK
      */
     @Transactional(rollbackFor = Exception.class)
-    public void doStoreP2PAck(IM_Message msg){
+    public void doStoreP2PAck(IM_Message msg) {
         //更新消息接收状态
-        Header header=msg.getHeader();
-        UpdateWrapper wrapper=new UpdateWrapper();
-        wrapper.eq("to_user",header.getTID());
-        wrapper.eq("from_user",header.getUID());
-        wrapper.set("state",1);
+        Header header = msg.getHeader();
+        UpdateWrapper wrapper = new UpdateWrapper();
+        wrapper.eq("to_user", header.getTID());
+        wrapper.eq("from_user", header.getUID());
+        wrapper.set("state", 1);
 
         //更新最新接收消息id
-        UpdateWrapper updateWrapper=new UpdateWrapper<>();
-        updateWrapper.eq("user_id",header.getTID());
-        updateWrapper.eq("friend_id",header.getUID());
-        updateWrapper.set("latest_message_id",header.getMID());
+        UpdateWrapper updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("user_id", header.getTID());
+        updateWrapper.eq("friend_id", header.getUID());
+        updateWrapper.set("latest_message_id", header.getMID());
         try {
             //更新消息记录中的消息接收状态
-            p2pHistoryMapper.update(null,wrapper);
+            p2pHistoryMapper.update(null, wrapper);
             //更新用户接收最新的消息ID
-            userFriendsMapper.update(null,updateWrapper);
+            userFriendsMapper.update(null, updateWrapper);
             log.info("单聊Mysql接收ack成功！");
 
             //删除已接收的在redis中的离线消息
@@ -135,16 +138,16 @@ public class StoreMessageService {
      * 接收群聊ACK
      */
     @Transactional(rollbackFor = Exception.class)
-    public void doStoreGroupACK(IM_Message msg){
-        Header header=msg.getHeader();
+    public void doStoreGroupACK(IM_Message msg) {
+        Header header = msg.getHeader();
 
         //更新最新接收消息id
-        UpdateWrapper updateWrapper=new UpdateWrapper();
-        updateWrapper.eq("user_id",header.getTID());
-        updateWrapper.eq("group_id",header.getGID());
-        updateWrapper.set("latest_message_id",header.getMID());
+        UpdateWrapper updateWrapper = new UpdateWrapper();
+        updateWrapper.eq("user_id", header.getTID());
+        updateWrapper.eq("group_id", header.getGID());
+        updateWrapper.set("latest_message_id", header.getMID());
         try {
-            userGroupsMapper.update(null,updateWrapper);
+            userGroupsMapper.update(null, updateWrapper);
             log.info("群聊ACK处理成功！");
         } catch (Exception e) {
             log.info("群聊ACK处理失败！");

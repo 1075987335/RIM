@@ -26,19 +26,19 @@ public class BeforeSendService {
 
     /**
      * 将消息添加进ACK等待列表中
+     *
      * @param sendMessageVo
      */
-    public void addToAckList(SendMessageVo sendMessageVo, long TID){
+    public void addToAckList(SendMessageVo sendMessageVo, long TID) {
         IM_Message message = ConvertToIM_Message.convert(sendMessageVo, TID);
         unprocessedRequests.put(message);
         byte type = sendMessageVo.getType();
-        if(type == Constants.CommandType.P2P_MSG){
-            P2PAckJob p2PAckJob =new P2PAckJob(message.getHeader().getMID(),3);
+        if (type == Constants.CommandType.P2P_MSG) {
+            P2PAckJob p2PAckJob = new P2PAckJob(message.getHeader().getMID(), 3);
             p2PAckJob.setDelay_time(delay_time);
             p2PAckJob.setTaskId(sendMessageVo.getMID());
             ringBufferWheel.addTask(p2PAckJob);
-        }
-        else if(type == Constants.CommandType.GROUP_MSG){
+        } else if (type == Constants.CommandType.GROUP_MSG) {
             long mid = message.getHeader().getMID();
             long tid = message.getHeader().getTID();
             long gid = message.getHeader().getGID();

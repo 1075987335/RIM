@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class ThreadPoolConfig {
     @Bean("singleJobExecutor")
-    public ThreadPoolExecutor singleJobExecutor(){
+    public ThreadPoolExecutor singleJobExecutor() {
         NamedThreadFactory factory = new NamedThreadFactory("ScanJobExecutor--", true);
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 1,
@@ -27,7 +27,7 @@ public class ThreadPoolConfig {
     }
 
     @Bean("outTimeJobExecutor")
-    public RingBufferWheel outTimeJobExecutor(){
+    public RingBufferWheel outTimeJobExecutor() {
         NamedThreadFactory factory = new NamedThreadFactory("DelayJobExecutor--", false);
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 25,
@@ -42,7 +42,7 @@ public class ThreadPoolConfig {
     }
 
     @Bean("scheduleJobExecutor")
-    public ScheduledThreadPoolExecutor scheduleJobExecutor(){
+    public ScheduledThreadPoolExecutor scheduleJobExecutor() {
         NamedThreadFactory factory = new NamedThreadFactory("SchedulJobExecutor--", true);
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1, factory);
         return executor;

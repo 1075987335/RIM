@@ -22,32 +22,30 @@ public class InactiveHandler {
     @Autowired
     ServerConfig config;
 
-    public void offline(RIMUserInfo userInfo){
-        OfflineReqVO offlineReqVO =new OfflineReqVO();
+    public void offline(RIMUserInfo userInfo) {
+        OfflineReqVO offlineReqVO = new OfflineReqVO();
         offlineReqVO.setUID(userInfo.getUID());
         routeUserService.offLine(offlineReqVO);
-        log.info("用户{}离线",userInfo.getUID());
+        log.info("用户{}离线", userInfo.getUID());
     }
 
-    public void handler(ChannelHandlerContext ctx){
+    public void handler(ChannelHandlerContext ctx) {
         long heartBeatTime = config.getHeartBeatTime();
         Long lastReadTime = NettyAttrUtil.getReadTime(ctx.channel());
         long nowTime = System.currentTimeMillis();
-        if(lastReadTime != null && nowTime - lastReadTime > heartBeatTime){
+        if (lastReadTime != null && nowTime - lastReadTime > heartBeatTime) {
             RIMUserInfo userId = UserChannelFactory.getUserId(ctx.channel());
-            if(userId != null){
-                log.warn("客户端[{}]心跳超时[{}]ms，需要关闭连接！",userId.getUID(),nowTime - lastReadTime);
+            if (userId != null) {
+                log.warn("客户端[{}]心跳超时[{}]ms，需要关闭连接！", userId.getUID(), nowTime - lastReadTime);
             }
-            if(userId != null){
+            if (userId != null) {
                 offline(userId);
                 UserChannelFactory.remove(ctx.channel());
                 ctx.channel().close();
                 log.info("连接已关闭！");
-            }
-            else
+            } else
                 log.info("userId为null，无法判断存活状态");
-        }
-        else{
+        } else {
             log.info("客户端未超时");
         }
     }

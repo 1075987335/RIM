@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class SerializeConfig {
 
     @Bean
-    public KryoSerializer kryoSerializer(){
+    public KryoSerializer kryoSerializer() {
         return new KryoSerializer();
     }
 }

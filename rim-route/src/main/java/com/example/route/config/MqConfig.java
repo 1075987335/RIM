@@ -19,68 +19,69 @@ public class MqConfig {
 
     @Autowired
     MQCallBack mqCallBack;
+
     @Bean
-    public void setCallBackAndReturnBack(){
+    public void setCallBackAndReturnBack() {
         rabbitTemplate.setReturnsCallback(mqCallBack);
         rabbitTemplate.setConfirmCallback(mqCallBack);
     }
 
     //指定相应功能的队列
     @Bean
-    public Queue p2pMessageQueue(){
+    public Queue p2pMessageQueue() {
         return new Queue(Constants.RabbitmqConstants.P2PMessage);
     }
 
     @Bean
-    public Queue p2pACKQueue(){
+    public Queue p2pACKQueue() {
         return new Queue(Constants.RabbitmqConstants.P2PACK);
     }
 
     @Bean
-    public Queue groupMessageQueue(){
+    public Queue groupMessageQueue() {
         return new Queue(Constants.RabbitmqConstants.GroupMessage);
     }
 
     @Bean
-    public Queue groupACKQueue(){
+    public Queue groupACKQueue() {
         return new Queue(Constants.RabbitmqConstants.GroupACK);
     }
 
     @Bean
-    public Queue p2pOfflineQueue(){
+    public Queue p2pOfflineQueue() {
         return new Queue(Constants.RabbitmqConstants.P2POfflineMessage);
     }
 
     //指定相应功能的交换机
     @Bean
-    TopicExchange exchange(){
+    TopicExchange exchange() {
         return new TopicExchange(Constants.RabbitmqConstants.Routing);
     }
 
 
     //将队列与交换机进行绑定
     @Bean
-    Binding bindingP2POfflineQueue(){
+    Binding bindingP2POfflineQueue() {
         return BindingBuilder.bind(p2pOfflineQueue()).to(exchange()).with(Constants.RabbitmqConstants.P2POfflineMessage);
     }
 
     @Bean
-    Binding bindingP2PACKQueue(){
+    Binding bindingP2PACKQueue() {
         return BindingBuilder.bind(p2pACKQueue()).to(exchange()).with(Constants.RabbitmqConstants.P2PACK);
     }
 
     @Bean
-    Binding bindingP2PMessageQueue(){
+    Binding bindingP2PMessageQueue() {
         return BindingBuilder.bind(p2pMessageQueue()).to(exchange()).with(Constants.RabbitmqConstants.P2PMessage);
     }
 
     @Bean
-    Binding bindingGroupMessageQueue(){
+    Binding bindingGroupMessageQueue() {
         return BindingBuilder.bind(groupMessageQueue()).to(exchange()).with(Constants.RabbitmqConstants.GroupMessage);
     }
 
     @Bean
-    Binding bindingGroupACKQueue(){
+    Binding bindingGroupACKQueue() {
         return BindingBuilder.bind(groupACKQueue()).to(exchange()).with(Constants.RabbitmqConstants.GroupACK);
     }
 }

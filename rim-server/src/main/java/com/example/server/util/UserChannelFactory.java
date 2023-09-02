@@ -10,16 +10,17 @@ public class UserChannelFactory {
     private static final Map<Long, Channel> CHANNEL_MAP = new ConcurrentHashMap<>(16);
     private static final Map<Long, String> SESSION_MAP = new ConcurrentHashMap<>(16);
 
-    public static void saveSession(Long userId,String userName){
+    public static void saveSession(Long userId, String userName) {
         SESSION_MAP.put(userId, userName);
     }
 
-    public static void removeSession(Long userId){
-        SESSION_MAP.remove(userId) ;
+    public static void removeSession(Long userId) {
+        SESSION_MAP.remove(userId);
     }
 
     /**
      * Save the relationship between the userId and the channel.
+     *
      * @param id
      * @param socketChannel
      */
@@ -41,17 +42,18 @@ public class UserChannelFactory {
 
     /**
      * 获取注册用户信息
+     *
      * @param channel
      * @return
      */
-    public static RIMUserInfo getUserId(Channel channel){
+    public static RIMUserInfo getUserId(Channel channel) {
         for (Map.Entry<Long, Channel> entry : CHANNEL_MAP.entrySet()) {
             Channel value = entry.getValue();
-            if (channel == value){
+            if (channel == value) {
                 Long key = entry.getKey();
                 RIMUserInfo info = new RIMUserInfo();
                 info.setUID(key);
-                return info ;
+                return info;
             }
         }
         return null;

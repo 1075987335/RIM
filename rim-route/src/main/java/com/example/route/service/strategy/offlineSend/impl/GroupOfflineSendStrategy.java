@@ -48,8 +48,8 @@ public class GroupOfflineSendStrategy implements OfflineMessageSendStrategy {
         List<Long> allGroupMember = redisUtil.getAllGroupMember(sendMessageVo.getGID());
         IM_Message message = ConvertToIM_Message.convert(sendMessageVo, sendMessageVo.getTID());
         mqSend.sendMessage(message, false);
-        for(Long id: allGroupMember){
-            if(redisUtil.getUserLoginState(id)){
+        for (Long id : allGroupMember) {
+            if (redisUtil.getUserLoginState(id)) {
                 beforeSendService.addToAckList(sendMessageVo, id);
                 sendJobExecutor.execute(new SendMessageJob(sendMessageVo, id));
             }

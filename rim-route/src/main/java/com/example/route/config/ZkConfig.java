@@ -17,7 +17,7 @@ public class ZkConfig {
     private String zkRoot;
 
     @Bean("zkClient")
-    public ZkClient zkClient(){
+    public ZkClient zkClient() {
         return new ZkClient(zkAddr, Integer.MAX_VALUE);
     }
 }

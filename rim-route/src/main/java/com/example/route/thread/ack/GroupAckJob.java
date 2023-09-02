@@ -27,7 +27,7 @@ public class GroupAckJob extends RingBufferWheel.Task {
 
     MessageSendService messageSendService;
 
-    public GroupAckJob(long mid, long tid, long gid, int count){
+    public GroupAckJob(long mid, long tid, long gid, int count) {
         this.mid = mid;
         this.gid = gid;
         this.tid = tid;
@@ -39,11 +39,11 @@ public class GroupAckJob extends RingBufferWheel.Task {
     }
 
     @Override
-    public void run(){
+    public void run() {
         if (index < count) {
             index++;
             IM_Message message = unprocessedRequests.get(mid, tid, gid);
-            if(message == null){
+            if (message == null) {
                 log.info("消息处理成功！重传结束！");
                 return;
             }
@@ -51,8 +51,7 @@ public class GroupAckJob extends RingBufferWheel.Task {
             ringBufferWheel.addTask(this);
             SendMessageVo sendMessageVo = ConvertToSendMessageVo.parse(message);
             messageSendService.sendRetryMessageToServer(sendMessageVo);
-        }
-        else{
+        } else {
             //如果重发失败，不做处理
             unprocessedRequests.finish(mid, tid, gid);
             log.error("重发失败，请重新连接服务器！");

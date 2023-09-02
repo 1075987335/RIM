@@ -9,12 +9,12 @@ import com.example.common.proto.IM_Message;
 import com.example.common.route.RouteInfo;
 import com.example.common.util.RedisUtil;
 import com.example.common.util.RouteInfoParseUtil;
-import com.example.route.utils.DubboUtil;
 import com.example.route.loadbalance.consistenthash.ConsistentHashHandle;
 import com.example.route.mq.MQSend;
 import com.example.route.service.strategy.send.MessageSendContext;
 import com.example.route.thread.SendMessageJob;
 import com.example.route.utils.ConvertToIM_Message;
+import com.example.route.utils.DubboUtil;
 import com.example.server.SendMessage;
 import com.example.server.reqeust.SendRequestVo;
 import lombok.extern.slf4j.Slf4j;
@@ -52,12 +52,13 @@ public class MessageSendServiceImpl implements MessageSendService {
 
     /**
      * 寻找服务器发送消息
+     *
      * @param sendMessageVo
      */
     @Override
     public void sendMessageToServer(SendMessageVo sendMessageVo) {
         //幂等性检查
-        if(checkDuplicate(sendMessageVo)){
+        if (checkDuplicate(sendMessageVo)) {
             log.info("消息去重操作...");
             return;
         }
@@ -66,18 +67,19 @@ public class MessageSendServiceImpl implements MessageSendService {
 
     /**
      * 发送离线消息
+     *
      * @param sendMessageVo
      */
-    public void sendOfflineMessage(SendMessageVo sendMessageVo){
+    public void sendOfflineMessage(SendMessageVo sendMessageVo) {
         //幂等性检查
-        if(checkDuplicate(sendMessageVo)){
+        if (checkDuplicate(sendMessageVo)) {
             log.info("消息已处理过，此次请求无效！");
             return;
         }
 
         //单聊查看用户登陆状态
         if (!userService.getUserLoginState(sendMessageVo.getTID())) {
-            log.info("用户{}已离线，无法发送离线消息...",sendMessageVo.getTID());
+            log.info("用户{}已离线，无法发送离线消息...", sendMessageVo.getTID());
             return;
         }
 
@@ -87,8 +89,10 @@ public class MessageSendServiceImpl implements MessageSendService {
         //发送消息
         sendJobExecutor.execute(new SendMessageJob(sendMessageVo, sendMessageVo.getTID()));
     }
+
     /**
      * 在redis中保存离线消息
+     *
      * @param sendMessageVo
      */
     @Override
@@ -102,16 +106,16 @@ public class MessageSendServiceImpl implements MessageSendService {
 
     /**
      * 幂等性检查，查看消息是不是已经处理过了
+     *
      * @param sendMessageVo
      * @return
      */
-    public boolean checkDuplicate(SendMessageVo sendMessageVo){
+    public boolean checkDuplicate(SendMessageVo sendMessageVo) {
         byte type = sendMessageVo.getType();
         boolean exist = false;
-        if(type == Constants.CommandType.P2P_MSG){
+        if (type == Constants.CommandType.P2P_MSG) {
             exist = redisUtil.isP2PMessageExist(sendMessageVo.getMID());
-        }
-        else if(type == Constants.CommandType.GROUP_MSG){
+        } else if (type == Constants.CommandType.GROUP_MSG) {
             exist = redisUtil.isGroupmessageExist(sendMessageVo.getMID(), sendMessageVo.getGID());
         }
         return exist;
@@ -119,26 +123,28 @@ public class MessageSendServiceImpl implements MessageSendService {
 
     /**
      * 给客户端返回ack
+     *
      * @param ackVo
      */
     @Override
     public void sendAckToClient(AckVo ackVo) {
         //在redis找一台服务器进行路由
         String server = redisUtil.getUserRoute(ackVo.getTID());
-        log.info("server：{}",server);
-        RouteInfo info= RouteInfoParseUtil.parse(server);
+        log.info("server：{}", server);
+        RouteInfo info = RouteInfoParseUtil.parse(server);
 
         SendRequestVo sendRequestVo = new SendRequestVo();
         sendRequestVo.setTID(ackVo.getTID());
         sendRequestVo.setMID(ackVo.getMID());
         sendRequestVo.setType(ackVo.getType());
-        Object[] parameters=new Object[]{sendRequestVo};
-        DubboUtil.getDubboService(SendMessage.class,info.getIp(), info.getDubboPort(),"SendMessage", parameters);
+        Object[] parameters = new Object[]{sendRequestVo};
+        DubboUtil.getDubboService(SendMessage.class, info.getIp(), info.getDubboPort(), "SendMessage", parameters);
         log.info("消息：{} ACK消息发送成功！", ackVo.getMID());
     }
 
     /**
      * 客户端向存储服务发送ack
+     *
      * @param ackVo
      */
     @Override
@@ -150,6 +156,7 @@ public class MessageSendServiceImpl implements MessageSendService {
 
     /**
      * 重新寻找服务器发送消息
+     *
      * @param sendMessageVo
      */
     @Override

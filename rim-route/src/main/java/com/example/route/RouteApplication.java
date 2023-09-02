@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @EnableDubbo
 @EnableCaching
-public class RouteApplication{
+public class RouteApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RouteApplication.class, args);

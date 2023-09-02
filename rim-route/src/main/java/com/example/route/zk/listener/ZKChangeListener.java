@@ -13,11 +13,11 @@ public class ZKChangeListener implements IZkChildListener {
 
     Cache<String, Object> cache;
 
-    private ZkClient zkClient;
+    private final ZkClient zkClient;
 
-    private ZkConfig zkConfig;
+    private final ZkConfig zkConfig;
 
-    public ZKChangeListener(Cache<String, Object> cache, ZkClient zkClient, ZkConfig zkConfig){
+    public ZKChangeListener(Cache<String, Object> cache, ZkClient zkClient, ZkConfig zkConfig) {
         this.cache = cache;
         this.zkClient = zkClient;
         this.zkConfig = zkConfig;
@@ -26,7 +26,7 @@ public class ZKChangeListener implements IZkChildListener {
     @Override
     public void handleChildChange(String s, List<String> list) {
         //重新缓存缓存数据，加一个粒度很大的锁
-        synchronized (Cache.class){
+        synchronized (Cache.class) {
             List<String> children = zkClient.getChildren(zkConfig.getZkRoot());
             cache.put(s, children);
             log.info("更新本地缓存成功！");

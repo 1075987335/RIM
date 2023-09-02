@@ -1,6 +1,6 @@
 package com.example.route.loadbalance.consistenthash;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -9,18 +9,21 @@ public abstract class AbstractConsistentHash {
 
     /**
      * 新增节点
+     *
      * @param key
      * @param value
      */
-    protected abstract void add(long key,String value);
+    protected abstract void add(long key, String value);
 
     /**
      * 排序节点，数据结构自身支持排序可以不用重写
      */
-    protected void sort(){}
+    protected void sort() {
+    }
 
     /**
      * 根据当前的 key 通过一致性 hash 算法的规则取出一个节点
+     *
      * @param value
      * @return
      */
@@ -30,20 +33,21 @@ public abstract class AbstractConsistentHash {
 
     /**
      * 传入节点列表以及客户端信息获取一个服务节点
+     *
      * @param values
      * @param key
      * @return
      */
-    public String process(List<String> values,String key){
+    public String process(List<String> values, String key) {
 
         for (String value : values) {
             add(hash(value), value);
         }
-        String server=getFirstNodeValue(key);
+        String server = getFirstNodeValue(key);
         return server;
     }
 
-    public void init(List<String> values){
+    public void init(List<String> values) {
         for (String value : values) {
             add(hash(value), value);
         }
@@ -51,10 +55,11 @@ public abstract class AbstractConsistentHash {
 
     /**
      * hash 运算
+     *
      * @param value
      * @return
      */
-    public Long hash(String value){
+    public Long hash(String value) {
         MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
@@ -63,11 +68,7 @@ public abstract class AbstractConsistentHash {
         }
         md5.reset();
         byte[] keyBytes = null;
-        try {
-            keyBytes = value.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Unknown string :" + value, e);
-        }
+        keyBytes = value.getBytes(StandardCharsets.UTF_8);
 
         md5.update(keyBytes);
         byte[] digest = md5.digest();

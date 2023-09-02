@@ -15,9 +15,9 @@ public class MessageReceivedContext {
 
     Map<Byte, String> allClazz;
 
-    public void handle(IM_Message message){
+    public void handle(IM_Message message) {
         Header header = message.getHeader();
-        if(allClazz == null){
+        if (allClazz == null) {
             allClazz = MessageReceivedStrategyEnum.getAllClazz();
         }
         try {

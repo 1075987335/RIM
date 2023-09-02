@@ -9,12 +9,12 @@ public enum OfflineMessageSendStrategyEnum {
 
     P2P(Constants.CommandType.P2P_MSG, "P2POfflineSendStrategy"),
     GROUP(Constants.CommandType.GROUP_MSG, "GroupOfflineSendStrategy"),
-            ;
+    ;
 
     /**
      * 实现类
      */
-    private final String clazz ;
+    private final String clazz;
 
     /**
      * 消息类型
@@ -24,17 +24,19 @@ public enum OfflineMessageSendStrategyEnum {
 
     /**
      * 构造类
+     *
      * @param type
      * @param clazz
      */
     OfflineMessageSendStrategyEnum(byte type, String clazz) {
         this.type = type;
-        this.clazz = clazz ;
+        this.clazz = clazz;
     }
 
 
     /**
      * 获取 class。
+     *
      * @return class。
      */
     public String getClazz() {
@@ -43,16 +45,17 @@ public enum OfflineMessageSendStrategyEnum {
 
     /**
      * 获取type
+     *
      * @return
      */
-    public byte getType(){
+    public byte getType() {
         return type;
     }
 
-    public static Map<Byte,String> getAllClazz() {
-        Map<Byte,String> map = new HashMap<Byte, String>(16) ;
+    public static Map<Byte, String> getAllClazz() {
+        Map<Byte, String> map = new HashMap<Byte, String>(16);
         for (OfflineMessageSendStrategyEnum status : values()) {
-            map.put(status.getType(),"com.example.route.service.strategy.offlineSend.impl." + status.getClazz()) ;
+            map.put(status.getType(), "com.example.route.service.strategy.offlineSend.impl." + status.getClazz());
         }
         return map;
     }

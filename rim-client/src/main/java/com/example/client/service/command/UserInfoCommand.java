@@ -12,6 +12,7 @@ public class UserInfoCommand implements InnerCommand {
 
     @Autowired
     UserInfo userInfo;
+
     @Override
     public void process(String msg) {
         log.info("当前登陆用户为：{}号", userInfo.getUserID());

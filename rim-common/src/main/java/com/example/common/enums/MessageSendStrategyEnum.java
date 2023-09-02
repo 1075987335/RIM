@@ -13,7 +13,7 @@ public enum MessageSendStrategyEnum {
     /**
      * 实现类
      */
-    private final String clazz ;
+    private final String clazz;
 
     /**
      * 消息类型
@@ -23,17 +23,19 @@ public enum MessageSendStrategyEnum {
 
     /**
      * 构造类
+     *
      * @param type
      * @param clazz
      */
     MessageSendStrategyEnum(byte type, String clazz) {
         this.type = type;
-        this.clazz = clazz ;
+        this.clazz = clazz;
     }
 
 
     /**
      * 获取 class。
+     *
      * @return class。
      */
     public String getClazz() {
@@ -42,16 +44,17 @@ public enum MessageSendStrategyEnum {
 
     /**
      * 获取type
+     *
      * @return
      */
-    public byte getType(){
+    public byte getType() {
         return type;
     }
 
-    public static Map<Byte,String> getAllClazz() {
-        Map<Byte,String> map = new HashMap<Byte, String>(16) ;
+    public static Map<Byte, String> getAllClazz() {
+        Map<Byte, String> map = new HashMap<Byte, String>(16);
         for (MessageSendStrategyEnum status : values()) {
-            map.put(status.getType(),"com.example.route.service.strategy.send.impl." + status.getClazz()) ;
+            map.put(status.getType(), "com.example.route.service.strategy.send.impl." + status.getClazz());
         }
         return map;
     }

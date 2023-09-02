@@ -39,23 +39,22 @@ public class GroupMsgCommand implements InnerCommand {
 
     @Value("${ringbufferwheel.delay-time}")
     int delay_time;
+
     @Override
     public void process(String msg) {
-        if(msg.split(" ").length<=2){
+        if (msg.split(" ").length <= 2) {
             log.info("incorrect command, :group [groupID] [msg]");
             return;
         }
-        String[] totalMsg=msg.split(" ");
+        String[] totalMsg = msg.split(" ");
         long id = getIdService.getNextId("key");
         SendMessageVo parse = ConvertToSendMessageVo.convert(totalMsg, userInfo, id, Constants.CommandType.GROUP_MSG);
-        if(parse != null){
-            //加入acklist
-            unprocessedRequests.put(parse.getMID(), parse);
-            AckJob ackJob = new AckJob(parse.getMID(), count);
-            ackJob.setDelay_time(delay_time);
-            ackJob.setTaskId(parse.getMID());
-            ringBufferWheel.addTask(ackJob);
-            sendMessage.send(parse);
-        }
+        //加入acklist
+        unprocessedRequests.put(parse.getMID(), parse);
+        AckJob ackJob = new AckJob(parse.getMID(), count);
+        ackJob.setDelay_time(delay_time);
+        ackJob.setTaskId(parse.getMID());
+        ringBufferWheel.addTask(ackJob);
+        sendMessage.send(parse);
     }
 }

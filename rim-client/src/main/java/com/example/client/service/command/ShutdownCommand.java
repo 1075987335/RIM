@@ -31,7 +31,7 @@ public class ShutdownCommand implements InnerCommand {
 
     @Override
     public void process(String msg) {
-        if(!msg.equals(":q")){
+        if (!msg.equals(":q")) {
             log.info("incorrect command, :q");
             return;
         }

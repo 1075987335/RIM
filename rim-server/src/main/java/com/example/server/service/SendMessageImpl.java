@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SendMessageImpl implements SendMessage {
     @Override
-    public String SendMessage(SendRequestVo sendRequestVo){
-        IM_Message msg=new IM_Message();
-        Header header=new Header();
+    public String SendMessage(SendRequestVo sendRequestVo) {
+        IM_Message msg = new IM_Message();
+        Header header = new Header();
         header.setTID(sendRequestVo.getTID());
         header.setUID(sendRequestVo.getUID());
         header.setMID(sendRequestVo.getMID());
@@ -30,7 +30,7 @@ public class SendMessageImpl implements SendMessage {
         log.info("即将推送消息：{}", msg);
         Channel channel = UserChannelFactory.get(sendRequestVo.getTID());
         ChannelFuture future = channel.writeAndFlush(msg);
-        future.addListener((ChannelFutureListener) channelFuture->{
+        future.addListener((ChannelFutureListener) channelFuture -> {
             log.info("消息已推送！");
         });
         return "success";

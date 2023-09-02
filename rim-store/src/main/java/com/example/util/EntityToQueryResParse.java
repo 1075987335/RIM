@@ -10,10 +10,10 @@ import java.util.List;
 
 public class EntityToQueryResParse {
 
-    public static List<QueryResponseVo> parse(List<UserGroupsEntity> userGroups, List<UserFriendsEntity> userFriends){
+    public static List<QueryResponseVo> parse(List<UserGroupsEntity> userGroups, List<UserFriendsEntity> userFriends) {
         List<QueryResponseVo> list = new ArrayList<>();
         //群聊封装
-        for(UserGroupsEntity e : userGroups){
+        for (UserGroupsEntity e : userGroups) {
             QueryResponseVo vo = new QueryResponseVo();
             vo.setType(Constants.CommandType.GROUP_MSG);
             vo.setGID(e.getGroupId());
@@ -23,7 +23,7 @@ public class EntityToQueryResParse {
         }
 
         //私聊封装
-        for(UserFriendsEntity e : userFriends){
+        for (UserFriendsEntity e : userFriends) {
             QueryResponseVo vo = new QueryResponseVo();
             vo.setType(Constants.CommandType.P2P_MSG);
             vo.setUID(e.getFriendId());

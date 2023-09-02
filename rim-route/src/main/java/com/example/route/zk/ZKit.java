@@ -24,11 +24,11 @@ public class ZKit {
     private Cache<String, Object> caffeineCache;
 
 
-    public List<String> getAllNode(){
+    public List<String> getAllNode() {
         List<String> children;
         synchronized (Cache.class) {
-            children = (List<String>)caffeineCache.asMap().get(zkConfig.getZkRoot());
-            if(children == null){
+            children = (List<String>) caffeineCache.asMap().get(zkConfig.getZkRoot());
+            if (children == null) {
                 children = zkClient.getChildren(zkConfig.getZkRoot());
                 caffeineCache.put(zkConfig.getZkRoot(), children);
                 subscribeChildChanges();
@@ -39,7 +39,7 @@ public class ZKit {
         return children;
     }
 
-    public void subscribeChildChanges(){
+    public void subscribeChildChanges() {
         zkClient.subscribeChildChanges(zkConfig.getZkRoot(), new ZKChangeListener(caffeineCache, zkClient, zkConfig));
 
     }

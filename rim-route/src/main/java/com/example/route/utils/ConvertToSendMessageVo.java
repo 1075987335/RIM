@@ -7,7 +7,7 @@ import com.example.storeapi.vo.OfflineResponseVo;
 
 public class ConvertToSendMessageVo {
 
-    public static SendMessageVo parse(IM_Message message){
+    public static SendMessageVo parse(IM_Message message) {
         if (message != null) {
             Header header = message.getHeader();
             SendMessageVo sendMessageVo = new SendMessageVo();
@@ -22,8 +22,8 @@ public class ConvertToSendMessageVo {
         return null;
     }
 
-    public static SendMessageVo parse(OfflineResponseVo offlineResponseVo){
-        if(offlineResponseVo != null){
+    public static SendMessageVo parse(OfflineResponseVo offlineResponseVo) {
+        if (offlineResponseVo != null) {
             SendMessageVo sendMessageVo = new SendMessageVo();
             byte type = offlineResponseVo.getType();
             sendMessageVo.setMID(offlineResponseVo.getMID());

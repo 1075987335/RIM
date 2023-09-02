@@ -54,7 +54,7 @@ public class RingBufferWheel {
     private AtomicInteger taskId = new AtomicInteger();
     private Map<Long, Task> taskMap = new ConcurrentHashMap<>(16);
 
-    public RingBufferWheel(ThreadPoolExecutor executorService){
+    public RingBufferWheel(ThreadPoolExecutor executorService) {
         this.executorService = executorService;
         this.bufferSize = STATIC_RING_SIZE;
         this.ringBuffer = new Object[bufferSize];
@@ -114,6 +114,7 @@ public class RingBufferWheel {
 
     /**
      * Cancel task by taskId
+     *
      * @param id unique id through {@link #addTask(Task)}
      * @return
      */
@@ -161,9 +162,10 @@ public class RingBufferWheel {
 
     /**
      * Same with method {@link #taskSize}
+     *
      * @return
      */
-    public int taskMapSize(){
+    public int taskMapSize() {
         return taskMap.size();
     }
 
@@ -224,6 +226,7 @@ public class RingBufferWheel {
 
     /**
      * Remove and get task list.
+     *
      * @param key
      * @return task list
      */
@@ -305,7 +308,7 @@ public class RingBufferWheel {
         /**
          * The unique ID of the task
          */
-        private long taskId ;
+        private long taskId;
 
         @Override
         public void run() {
@@ -316,7 +319,6 @@ public class RingBufferWheel {
         }
 
         /**
-         *
          * @param delay_time Delay time(seconds)
          */
         public void setDelay_time(int delay_time) {

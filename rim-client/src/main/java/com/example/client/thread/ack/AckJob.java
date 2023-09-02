@@ -21,7 +21,7 @@ public class AckJob extends RingBufferWheel.Task {
 
     RingBufferWheel ringBufferWheel;
 
-    public AckJob(long messageId, int count){
+    public AckJob(long messageId, int count) {
         this.messageId = messageId;
         this.count = count;
         index = 1;
@@ -34,11 +34,10 @@ public class AckJob extends RingBufferWheel.Task {
     public void run() {
         if (index <= count) {
             SendMessageVo message = unprocessedRequests.get(messageId);
-            if(message == null){
-                if(index == 1){
+            if (message == null) {
+                if (index == 1) {
                     log.info("消息已处理成功，无需重传");
-                }
-                else{
+                } else {
                     log.info("消息已处理成功！重传结束！");
                 }
                 return;
@@ -47,8 +46,7 @@ public class AckJob extends RingBufferWheel.Task {
             ringBufferWheel.addTask(this);
             sendMessage.send(message);
             index++;
-        }
-        else{
+        } else {
             log.error("重发失败，请重新连接服务器！");
         }
     }

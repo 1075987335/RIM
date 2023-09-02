@@ -17,12 +17,13 @@ public class ShutDownHook {
 
     @Autowired
     ZKit zKit;
-    public void clearAll(){
+
+    public void clearAll() {
         log.info("添加钩子函数清除zookeeper中的注册信息");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 //zookeeper中删除这个地址
-                String path = config.getZkRoot() +"/"+ InetAddress.getLocalHost().getHostAddress() + ":" +config.getServerPort() + ":" + config.getHttpPort() + ":" + config.getDubboPort();
+                String path = config.getZkRoot() + "/" + InetAddress.getLocalHost().getHostAddress() + ":" + config.getServerPort() + ":" + config.getHttpPort() + ":" + config.getDubboPort();
                 zKit.removeNode(path);
             } catch (UnknownHostException ignored) {
                 System.out.println(ignored);

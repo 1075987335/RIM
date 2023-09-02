@@ -13,12 +13,12 @@ import java.util.Map;
 public class MessageSendContext {
     Map<Byte, String> allClazz;
 
-    public void handle(SendMessageVo sendMessageVo){
-        if(allClazz == null){
+    public void handle(SendMessageVo sendMessageVo) {
+        if (allClazz == null) {
             allClazz = MessageSendStrategyEnum.getAllClazz();
         }
         try {
-            MessageSendStrategy strategy = (MessageSendStrategy)SpringBeanFactory.getBean(Class.forName(allClazz.get(sendMessageVo.getType())));
+            MessageSendStrategy strategy = (MessageSendStrategy) SpringBeanFactory.getBean(Class.forName(allClazz.get(sendMessageVo.getType())));
             strategy.process(sendMessageVo);
         } catch (ClassNotFoundException e) {
             log.info("策略获取失败...");

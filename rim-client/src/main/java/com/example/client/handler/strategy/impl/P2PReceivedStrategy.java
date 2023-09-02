@@ -26,9 +26,9 @@ public class P2PReceivedStrategy implements MessageReceivedStrategy {
     public void handle(IM_Message message) {
         Header header = message.getHeader();
         log.info("\n" +
-                "--------------------------------------------\n" +
-                "来自用户 [{}] : {}\n" +
-                "--------------------------------------------",
+                        "--------------------------------------------\n" +
+                        "来自用户 [{}] : {}\n" +
+                        "--------------------------------------------",
                 header.getUID(), message.getBody());
         //进行幂等性判断
         if (!receivedMessage.isP2PMessageExist(header.getMID())) {
@@ -36,8 +36,7 @@ public class P2PReceivedStrategy implements MessageReceivedStrategy {
             AckVo ackVo = ConvertToAckVo.convert(message, Constants.CommandType.P2P_ACK);
             //发送接收ack
             sendMessage.sendACK(ackVo);
-        }
-        else{
+        } else {
             log.info("幂等性处理");
         }
     }

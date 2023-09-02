@@ -28,12 +28,12 @@ public class MQCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
 
     @Override
     public void confirm(CorrelationData correlationData, boolean b, String s) {
-        if(b){
+        if (b) {
             log.info("收到回调消息，id为:{}", correlationData.toString());
             String id = correlationData.getId();
             String[] messageInfo = id.split(":");
             String messageType = messageInfo[0];
-            if(messageType.equals("P2P")){
+            if (messageType.equals("P2P")) {
                 long mid = Long.parseLong(messageInfo[1]);
                 long uid = Long.parseLong(messageInfo[2]);
                 AckVo ackVo = new AckVo();
@@ -41,8 +41,7 @@ public class MQCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
                 ackVo.setTID(uid);
                 ackVo.setMID(mid);
                 messageSendService.sendAckToClient(ackVo);
-            }
-            else if(messageType.equals("Group")){
+            } else if (messageType.equals("Group")) {
                 long mid = Long.parseLong(messageInfo[1]);
                 long uid = Long.parseLong(messageInfo[2]);
                 AckVo ackVo = new AckVo();
@@ -50,26 +49,22 @@ public class MQCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
                 ackVo.setTID(uid);
                 ackVo.setMID(mid);
                 messageSendService.sendAckToClient(ackVo);
-            }
-            else if(messageType.equals("P2PAck")){
+            } else if (messageType.equals("P2PAck")) {
                 long mid = Long.parseLong(messageInfo[1]);
                 outTimeJobExecutor.cancel(mid);
                 unprocessedRequests.finish(mid);
-            }
-            else if(messageType.equals("GroupAck")){
+            } else if (messageType.equals("GroupAck")) {
                 long mid = Long.parseLong(messageInfo[1]);
                 long tid = Long.parseLong(messageInfo[2]);
                 long gid = Long.parseLong(messageInfo[3]);
                 outTimeJobExecutor.cancel(mid & tid);
                 unprocessedRequests.finish(mid, tid, gid);
-            }
-            else if(messageType.equals("Off")){
+            } else if (messageType.equals("Off")) {
                 long mid = Long.parseLong(messageInfo[1]);
                 outTimeJobExecutor.cancel(mid);
                 unprocessedRequests.finish(mid);
             }
-        }
-        else{
+        } else {
             log.error("MQ消息推送失败！");
         }
     }

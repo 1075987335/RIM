@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolConfig {
 
     @Bean("storeJobExecutor")
-    public ThreadPoolExecutor storeJobExecutor(){
+    public ThreadPoolExecutor storeJobExecutor() {
         NamedThreadFactory namedThreadFactory = new NamedThreadFactory("StoreJobExecutor--", false);
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 25,

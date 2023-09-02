@@ -1,8 +1,8 @@
 package com.example.server;
 
 import com.example.server.config.ServerConfig;
-import com.example.server.kit.ZKit;
 import com.example.server.kit.RegistryZK;
+import com.example.server.kit.ZKit;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,13 +21,13 @@ public class ServerApplication implements CommandLineRunner {
     ServerConfig serverConfig;
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ServerApplication.class,args);
+        SpringApplication.run(ServerApplication.class, args);
     }
 
     @Override
     public void run(String... strings) throws Exception {
-        String addr= InetAddress.getLocalHost().getHostAddress();
-        Thread thread=new Thread(new RegistryZK(addr,zKit,serverConfig));
+        String addr = InetAddress.getLocalHost().getHostAddress();
+        Thread thread = new Thread(new RegistryZK(addr, zKit, serverConfig));
         thread.start();
     }
 }
